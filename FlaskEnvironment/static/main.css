@@ -1,0 +1,79 @@
+body{
+    padding: 30px 30px;
+    background-image: filter(url(background.jpg), blur(8px));
+    background-attachment: fixed;
+    color:red;
+}
+
+.welcome{
+  color: teal;
+  font-style: bold;
+  font-variant: small-caps;
+  background-blend-mode: hue;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(to bottom right, blue, pink, lime, silver, green);
+  background-position: center;
+  background-size: 100%;
+  padding: 10px 30px;
+  border: 4px outset teal;
+  border-radius: 100px;
+
+}
+.topright {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-size: 18px;
+}
+.classesSub{
+  float: right;
+}
+.popularclasses{
+  color: teal;
+  font-style: bold;
+  font-variant: small-caps;
+  background-blend-mode: hue;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(to bottom right, blue, pink,silver,lime, silver,pink, green,blue);
+  background-size: 530px 100px;
+  background-position: center;
+  border: 4px outset teal;
+  text-align: center;
+}
+.yourclasses{
+  color: teal;
+  font-style: bold;
+  font-variant: small-caps;
+  background-blend-mode: hue;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(to bottom right, blue, pink,silver,lime, silver,pink, green,blue);
+  background-position: center;
+  background-size: 100%;
+  padding: 10px 60px;
+  border: 4px outset teal;
+  border-radius: 15px
+}
+.yourclassesSub{
+  color: teal;
+  font-style: bold;
+  font-size: 20px;
+  font-variant: small-caps;
+  background-blend-mode: hue;
+  background-repeat: no-repeat;
+  background-color: skyblue;
+  background-position: center;
+  background-size: 100%;
+  padding: 10px 80px;
+  border: 4px outset teal;
+  border-radius: 15px;
+}
+h2{
+}
+nav{
+  float: right;
+  color: lime;
+  font-size: 20px;
+}
+li{
+  padding: 10px 10px
+}

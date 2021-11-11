@@ -41,7 +41,7 @@ def classes(username):
 def classpage(username,id):
 
     user_a = User.query.filter_by(username = username).first()
-    classes = user_a.classes;
+    classes = Classes.query.filter_by(id = id).first()
     return render_template('ClassPage.html', user = user_a, classinfo = classes)
 
 @app.route('/SignUp', methods = ['POST','GET'])

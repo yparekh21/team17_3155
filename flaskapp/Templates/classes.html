@@ -11,7 +11,7 @@
     <body>
 
       <div>
-        <form action = "/Classes/<username>" METHOD = "POST">
+        <form action = "/Classes/{{user.username}}" METHOD = "POST">
 
           <p><label>Add a Class </label></p><p>
           <input type="text" name="name"/></p>
@@ -20,11 +20,11 @@
 
         </form>
 
-        {%for myclass in myclasses%}
+        {%for myclass in user.classes%}
 
           <h1>
 
-              {{myclass.name}}
+              <div class = 'gradient-text'><a href = '/ClassPage/{{user.username}}/{{myclass.id}}'>{{myclass.name}}</a></div>
 
           </h1>
 

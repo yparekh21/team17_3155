@@ -32,16 +32,16 @@ def classes(username):
             return "There was an error setting your class"
 
     else:
-        myclass = User.query.filter_by(username = username)
+        myclass = User.query.filter_by(username = username).first()
 
-        return render_template('classes.html', myclasses = myclass, user = username)
+
+        return render_template('classes.html', user = myclass)
 
 @app.route('/ClassPage/<username>/<id>', methods = ['POST', 'GET'])
 def classpage(username,id):
 
-    user_a = User.query.get(username)
-    userClass = User.query.get(id)
-    classes = Classes.query.get(userClass)
+    user_a = User.query.filter_by(username = username).first()
+    classes = user_a.classes;
     return render_template('ClassPage.html', user = user_a, classinfo = classes)
 
 @app.route('/SignUp', methods = ['POST','GET'])

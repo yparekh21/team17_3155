@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>CampusConnection</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='AccountHomeStyle.css') }}">
+    </head>
+    <body>
+
+        <div id = "topnavbar">
+          <h1 id = "titleFont" class = "gradient-text"><a href = '/Home/{{user.username}}'>UNCC Campus Connections</a></h1>
+            <span id = "navLinks" class = "gradient-text">{{user.username}} | sign out</span>
+        </div>
+
+      <div class = "container">
+        <form action = "/Classes/{{user.username}}" METHOD = "POST">
+
+          <p><label class = "gradient-text">Add a Class </label></p><p>
+          <input type="text" name="name"/></p>
+          <input type = "submit", value = "submit">
+
+
+        </form>
+
+        {%for myclass in user.classes%}
+
+          <h1>
+
+              <div class = 'gradient-text'><a href = '/ClassPage/{{user.username}}/{{myclass.id}}'>{{myclass.name}}</a></div>
+
+          </h1>
+
+        {%endfor%}
+        <br/><br/>
+
+      </div>
+
+    </body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>CampusConnection</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='AccountHomeStyle.css') }}">
+    </head>
+    <body>
+        <div id = "topnavbar">
+          <h1 id = "titleFont" class = "gradient-text"><a href = '/Home/{{user.username}}'>UNCC Campus Connections</a></h1>
+            <span id = "navLinks" class = "gradient-text">{{user.username}} | sign out</span>
+        </div>
+
+        <section class = "classNameHeader">
+            <h1 class = "gradient-text" >{{classinfo.name}}</h1>
+        </section>
+
+
+        <div class = "wrapper">
+          <div class = "classes"><p class = "gradient-text"><a href = '/Classes'>Topics</a></p></div>
+
+          <div class = "latestpost"><p class = "gradient-text">Latest Posts</p> </div>
+          <div class = 'latestpostsub'></div>
+          <div class = "popularpost"><p class = "gradient-text">Popular Post</p></div>
+          <div class = 'popularpostsub'></div>
+
+          <div class = "searchbar">
+            <form action = "search" method = "get">
+                <p class = 'searchaesthetic'><input type = "text" placeholder="Search...", size = "70";id "searchHome"></p>
+            </form>
+          </div>
+
+            <div class = "searchbarbutton">
+              <form>
+
+                <p><input type = "submit", value = "search"></p>
+              </form>
+            </div>
+
+        </div>
+
+    </body>
+</html>

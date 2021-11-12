@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>CampusConnection</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='AccountHomeStyle.css') }}">
+    </head>
+    <body>
+
+        <div>
+          <form action = "/SignUp" METHOD = "POST">
+
+            <p><label>Username </label></p><p>
+            <input type="text" name="name"/></p>
+            <p><label>Password </label></p>
+            <input type="text" name="password"/>
+            <br/><br/>
+            <input type = "submit", value = "Sign up">
+
+          </form>
+          <br/><br/>
+
+        </div>
+
+    </body>
+</html>

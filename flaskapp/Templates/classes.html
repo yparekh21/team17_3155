@@ -17,25 +17,19 @@
 
       <div class = "container">
         <form action = "/Classes/{{user.username}}" METHOD = "POST">
-
-          <p><label class = "gradient-text">Add a Class </label></p><p>
-          <input type="text" name="name"/></p>
-          <input type = "submit", value = "submit">
-
-
+           <h1 class = "subHeader gradient-text">Add Classes</h1>
+            <section id = "addClass">
+                <p><label class = "gradient-text">Enter class name </label></p>
+                <p><input type="text" name="name"/></p>
+                <input type = "submit", value = "submit">
+            </section>
         </form>
-
-        {%for myclass in user.classes%}
-
-          <h1>
-
-              <div class = 'gradient-text'><a href = '/ClassPage/{{user.username}}/{{myclass.id}}'>{{myclass.name}}</a></div>
-
-          </h1>
-
-        {%endfor%}
-        <br/><br/>
-
+          <h1 class = "miniSubHeader gradient-text">Current Classes</h1>
+        <div class = "classesContainer">
+            {%for myclass in user.classes%}
+                  <div class = "classListFont"><a href = '/ClassPage/{{user.username}}/{{myclass.id}}'>- {{myclass.name}}</a></div>
+            {%endfor%}
+        </div>
       </div>
 
     </body>

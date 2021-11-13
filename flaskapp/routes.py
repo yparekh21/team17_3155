@@ -1,9 +1,11 @@
 from flask import render_template, redirect, url_for, request
 import os
 import random as random
-from flaskapp.models import User as User, Classes as Classes
-from flaskapp import app
-from flaskapp import db
+from models import User as User, Classes as Classes
+from __init__ import app
+from database import db
+
+# Link: http://127.0.0.1:5000/
 
 @app.route('/Home/<username>')
 def index(username):

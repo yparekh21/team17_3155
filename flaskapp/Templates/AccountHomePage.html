@@ -14,17 +14,33 @@
             <span id = "navLinks" class = "gradient-text">{{user.username}} | sign out</span>
         </div>
         <div class = "wrapper">
-          <div class = "classes"><p class = "gradient-text"><a href = "{{ url_for('classes', username = user.username)}}">Classes</a></p></div>
-          <div class = "latestpost"><p class = "gradient-text">Latest Posts</p> </div>
-          <div class = "popularpost"><p class = "gradient-text">Popular Post</p></div>
+          <div class = "classesNav">
+              <p class = "subHeader gradient-text" >Your Classes</p>
+              <div class = "classesContainer">
+                  {%for myclass in user.classes%}
+                    <div class = "classListFont"><a href = '/ClassPage/{{user.username}}/{{myclass.id}}'>{{myclass.name}}</a></div>
+                  {%endfor%}
+              </div>
+              <span class = "gradient-text"><a href = "{{ url_for('classes', username = user.username)}}"> Add classes </a></span>
+          </div>
+
+          <div class = "latestpost">
+              <p class = "subHeader gradient-text">Latest Posts</p>
+          </div>
+
+          <div class = "popularpost">
+              <p class = "subHeader gradient-text">Popular Post</p>
+          </div>
+
+          <div id = "welcomeContainer">
+              <h1 id = "welcomeFont" class = "gradient-text">Welcome Niners!</h1>
+          </div>
+
           <div class = "searchbar">
             <form action = "search" method = "get">
-            <p><input type = "text" placeholder="Search...", size = "70"; id = "searchHome"></p>
+            <p><input id = "searchHome" type = "text" placeholder="Search...", size = "93.5"></p>
             </form>
-            </div>
-            <div class = "searchbarbutton">
-              <form>
-
+              <form class = "searchBarButton">
                 <p><input type = "submit", value = "search">
               </form>
             </div>

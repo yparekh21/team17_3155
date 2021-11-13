@@ -1,6 +1,6 @@
 body{
   width: 100%;
-  margin: 0;
+  margin: 0px;
   height: 100;
   background-image: url("background.jpg");
   background-repeat: no repeat;
@@ -30,18 +30,70 @@ body{
   gap: 20px;
 }
 
-.classes{
+.subHeader{
   font-size: 30px;
+  font-weight: bold;
   text-align: center;
-  grid-column: 4/19;
-  grid-row: 5/45;
+  border-bottom: 5px solid forestgreen;
+  padding-bottom: 5px;
+}
+
+.miniSubHeader{
+  font-size: 25px;
+  font-weight: bold;
+  text-align: left;
+  border-bottom: 5px solid forestgreen;
+  padding-bottom: 5px;
+}
+
+.classesNav{
+  font-size: 20px;
+  text-align: center;
+  grid-column: 4/20;
+  grid-row: 4/45;
   border: solid forestgreen;
   border-radius: 25px;
   background-color: rgba(0,0,0,0.9);
 
 }
 
-.classNameHeader{
+.classListFont {
+  font-size: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  margin-bottom: 15px;
+  text-align: left;
+  border-bottom: 2px ridge gold;
+} 
+
+.classesContainer{
+  font-size: 20px;
+  text-align: center;
+}
+
+.classesContainer a:link {
+  text-decoration: none;
+  color: forestgreen;
+  text-shadow: 0px 0px 26px forestgreen;
+}
+
+.classesContainer a:visited {
+  color: darkgreen;
+}
+
+.classesContainer a:hover {
+  background: -webkit-linear-gradient(gold,forestgreen,gold,gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.classesContainer a:active {
+  background: -webkit-linear-gradient(gold,forestgreen,gold,gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* .classNameHeader{
   width: 90%;
   margin-top: 100px;
   margin-right: 5%;
@@ -51,13 +103,17 @@ body{
   border: solid forestgreen;
   border-radius: 25px;
   background-color: rgba(0,0,0,0.9);
+} */
+
+#addClass{
+  text-align: center;
 }
 
 .latestpost{
   font-size: 30px;
   text-align: center;
-  grid-column: 20/50;
-  grid-row: 10/ 45;
+  grid-column: 20/47;
+  grid-row: 10/45;
   justify-content: center;
   border: solid forestgreen;
   border-radius: 25px;
@@ -68,20 +124,47 @@ body{
 .popularpost{
   font-size: 30px;
   text-align: center;
-  grid-column: 50/80;
+  grid-column: 48/75;
   grid-row: 10/45;
   border: solid forestgreen;
   border-radius: 25px;
   background-color: rgba(0,0,0,0.9);
 
 }
-.searchbar{
-  grid-column: 21/65;
-  grid-row: 8/10;
+
+#welcomeContainer{
+  grid-column: 20/75;
+  grid-row: 4/7;
+  border: solid forestgreen;
+  border-radius: 25px;
+  background-color: rgba(0,0,0,0.9);
+  padding-bottom: 5px;
 }
-.searchbarbutton{
-  grid-column: 47/65;
-  grid-row: 8/10;
+
+#welcomeFont{
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.searchbar{
+  grid-column: 20/75;
+  grid-row: 7/10;
+  border: solid forestgreen;
+  border-radius: 25px;
+  background-color: rgba(0,0,0,0.9);
+}
+
+.searchBarButton{
+  margin-right: 30.5px;
+  float: right;
+}
+
+#searchHome{
+  font-size: 20px;
+  margin-top: 5px;
+  margin-left: 25px;
+  float: left;
 }
 
 #titleFont{

@@ -106,7 +106,12 @@ body{
 } */
 
 #addClass{
+  font-size: 20px;
   text-align: center;
+}
+
+#addClass input[type=text]{
+  font-size: 20px;
 }
 
 .latestpost{
@@ -135,14 +140,23 @@ body{
 #welcomeContainer{
   grid-column: 20/75;
   grid-row: 4/7;
-  border: solid forestgreen;
+  border: solid gold;
   border-radius: 25px;
-  background-color: rgba(0,0,0,0.9);
+  background-color: rgba(0,25,0,0.9);
   padding-bottom: 5px;
 }
 
-#welcomeFont{
-  font-size: 40px;
+#classNameContainer{
+  grid-column: 20/75;
+  grid-row: 4/7;
+  border: solid darkgreen;
+  border-radius: 25px;
+  background-color: rgba(240,203,0,0.75);
+  padding-bottom: 5px;
+}
+
+.subtitleFont{
+  font-size: 50px;
   font-weight: bold;
   text-align: center;
 }

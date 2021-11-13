@@ -15,13 +15,13 @@
         </div>
         <div class = "wrapper">
           <div class = "classesNav">
-              <p class = "subHeader gradient-text" >Topics</p>
+              <p class = "subHeader gradient-text" >Class Topics</p>
               <div class = "classesContainer">
                   {%for myclass in user.classes%}
                     <div class = "classListFont"><a href = '/ClassPage/{{user.username}}/{{myclass.id}}'>{{myclass.name}}</a></div>
                   {%endfor%}
               </div>
-              <span class = "gradient-text"><a href = "{{ url_for('classes', username = user.username)}}"> Add classes </a></span>
+              <span class = "gradient-text"><a href = "{{ url_for('classes', username = user.username)}}"> Add Topics </a></span>
           </div>
 
           <div class = "latestpost">
@@ -32,8 +32,8 @@
               <p class = "subHeader gradient-text">Popular Post</p>
           </div>
 
-          <div id = "welcomeContainer">
-              <h1 id = "welcomeFont" class = "gradient-text">{{classinfo.name}}</h1>
+          <div id = "classNameContainer">
+              <h1 class = "subtitleFont gradient-nav">~ {{classinfo.name}} ~</h1>
           </div>
 
           <div class = "searchbar">

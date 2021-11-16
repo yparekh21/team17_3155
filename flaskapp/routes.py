@@ -42,16 +42,25 @@ def post(username,id):
     if request.method == 'POST':
         title = request.form['title']
         post = request.form['post']
-        id = random.randint(10000, 99999)
+        postid = random.randint(10000, 99999)
+        classIn = db.session.query(Classes).filter_by(id = id).first()
+        classId = classIn.id
+        user = User.query.filter_by(username = username).first()
+        userName = user.username
 
         #push to db
         try:
-            db.session.add(Posts(id, title, post))
+            thisinjection = Posts(postid, title, post, classId, userName)
+            db.session.add(thisinjection)
             db.session.commit()
 
-            return redirect(url_for('post', user = username, id = id))
+            return redirect(url_for('post', username = username, id = id))
         except:
-            return "There was an error posting your message"
+
+            postsOut = db.session.query(Posts).all()
+            print(classIn)
+            print(postsOut)
+            return "There was an error posting your post"
 
     else:
         user_a = User.query.filter_by(username=username).first()
@@ -102,7 +111,9 @@ def classpage(username,id):
 
     user_a = User.query.filter_by(username = username).first()
     classes = Classes.query.filter_by(id = id).first()
-    posts = db.session.query(Posts).all()
+    print(classes.id)
+    print(classes.posts)
+    posts = classes.posts
     return render_template('ClassPage.html', user = user_a, classinfo = classes, posts = posts)
 
 @app.route('/SignUp', methods = ['POST','GET'])

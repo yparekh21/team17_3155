@@ -7,6 +7,7 @@ class User(db.Model):
     password = db.Column(db.String(30), nullable=False)
     date_joined = db.Column(db.DateTime, default=datetime.utcnow)
     classes = db.relationship('Classes', backref = 'user',lazy=True)
+    posts = db.relationship('Posts', backref = 'user', lazy = True)
 
     def __init__(self, username, password):
         self.username = username
@@ -19,6 +20,7 @@ class Classes(db.Model):
     classcode = db.Column(db.Integer,nullable = True)
     date_added = db.Column(db.DateTime, default = datetime.utcnow)
     username = db.Column(db.String, db.ForeignKey('user.username'), nullable = False)
+    posts = db.relationship('Posts', backref='classes', lazy=True)
     def __init__(self, id, name, classcode, username):
         self.id = id
         self.name = name
@@ -31,8 +33,11 @@ class Posts(db.Model):
     title = db.Column(db.String(200), nullable=False)
     post = db.Column(db.String(300), nullable = False)
     date = db.Column(db.DateTime, default = datetime.utcnow)
-
-    def __init__(self, id, title, post):
+    classrelation = db.Column(db.Integer, db.ForeignKey('classes.id'), nullable=False)
+    userrelation = db.Column(db.String, db.ForeignKey('user.username'))
+    def __init__(self, id, title, post,classrelation, userrelation):
         self.id = id
         self.title = title
         self.post = post
+        self.classrelation = classrelation
+        self.userrelation = userrelation

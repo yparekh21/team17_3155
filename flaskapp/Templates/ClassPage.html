@@ -27,8 +27,9 @@
           <div class = "latestpost"><p class = "gradient-text">Latest Posts</p>
 
             {%for post in posts%}
-            <p class = 'gradient-text'>{{post.title}}</p>
+
             <form action = '{{url_for('editpost', username = user.username, id = classinfo.id, post_id = post.id)}}'>
+              <p class = 'gradient-text'>{{post.title}}</p>
               <input type = "submit" value = "Edit"/>
             </form>
             {%endfor%}

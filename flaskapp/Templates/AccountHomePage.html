@@ -19,7 +19,11 @@
 
 
 
-          <div class = "classes"><p class = "gradient-text"><a href = '{{url_for('classes', username = user.username)}}'>Classes</a></p></div>
+          <div class = "classes"><p class = "gradient-text"><a href = '{{url_for('classes', username = user.username)}}'>Classes
+            <p class = 'gradient-text'>
+          {%for myclass in user.classes%}
+            <a href = '/ClassPage/{{user.username}}/{{myclass.id}}'>{{myclass.name}}
+          {%endfor%}</p></a></p></div>
           <div class = "latestpost"><p class = "gradient-text">Latest Posts</p> </div>
           <div class = "popularpost"><p class = "gradient-text">Popular Post</p></div>
           <div class = "searchbar">

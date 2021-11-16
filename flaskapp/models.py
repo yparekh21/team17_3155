@@ -24,3 +24,15 @@ class Classes(db.Model):
         self.name = name
         self.classcode = classcode
         self.username = username
+
+class Posts(db.Model):
+    __tablename__ = 'posts'
+    id = db.Column(db.Integer, primary_key = True)
+    title = db.Column(db.String(200), nullable=False)
+    post = db.Column(db.String(300), nullable = False)
+    date = db.Column(db.DateTime, default = datetime.utcnow)
+
+    def __init__(self, id, title, post):
+        self.id = id
+        self.title = title
+        self.post = post

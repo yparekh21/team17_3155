@@ -17,13 +17,23 @@
           <br/><h1 class = "gradient-text">{{classinfo.name}}</h1>
 
           </div>
-          <div class = "topnavbar"><p class = "gradient-nav">{{user.username}} | sign out</p><p><a href = '/Home/{{user.username}}'>Home</a></p></div>
+          <div class = "topnavbar"><p class = "gradient-nav">{{user.username}} | sign out</p><p><a href = '/Home/{{user.username}}'>Home</a></p>
+          <p><a href = '{{url_for('post', username = user.username, id = classinfo.id)}}'>Create Post</a></p></div>
 
 
 
           <div class = "classes"><p class = "gradient-text"><a href = '/Classes'>Topics</a></p></div>
 
-          <div class = "latestpost"><p class = "gradient-text">Latest Posts</p> </div>
+          <div class = "latestpost"><p class = "gradient-text">Latest Posts</p>
+
+            {%for post in posts%}
+            <p class = 'gradient-text'>{{post.title}}</p>
+            <form action = '{{url_for('editpost', username = user.username, id = classinfo.id, post_id = post.id)}}'>
+              <input type = "submit" value = "Edit"/>
+            </form>
+            {%endfor%}
+
+          </div>
           <div class = 'latestpostsub'></div>
           <div class = "popularpost"><p class = "gradient-text">Popular Post</p></div>
           <div class = 'popularpostsub'></div>

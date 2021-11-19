@@ -18,7 +18,8 @@ def index():
     # check if a user is saved in session
     if session.get('user'):
         return render_template("AccountHomePage.html", user=session['user'])
-    return render_template('AccountHomePage.html')
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/Classes', methods= ['POST','GET'])
 def classes(username):

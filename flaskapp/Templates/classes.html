@@ -10,29 +10,38 @@
     </head>
     <body>
 
-      <div>
-        <nav class = 'gradient-nav'><a href = '/Home/{{user.username}}'>Home</a></nav>
-        <form action = "/Classes/{{user.username}}" METHOD = "POST">
 
-          <p><label>Add a Class </label></p><p>
-          <input type="text" name="name"/></p>
-          <input type = "submit", value = "submit">
+        <div id = "topnavbar">
+            <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
+            <span id = "navLinks" class = "gradient-text">{{user}} |
+                {% if user %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Sign In</a> ||
+                    <a href="{{ url_for('signup') }}">Register</a>
+                {% endif %}
+            </span>
+        </div>
 
-
+      <div class = "container">
+        <form action = "/Classes" METHOD = "POST">
+           <h1 class = "subHeader gradient-text">Add Classes</h1>
+            <section id = "addClass">
+                <p><label class = "gradient-text">Enter class name </label></p>
+                <p><input type="text" name="name" size = "50"/></p>
+                <input type = "submit", value = "submit">
+            </section>
         </form>
-
-        {%for myclass in user.classes%}
-
-          <h1>
-
-              <div class = 'gradient-text'><a href = '/ClassPage/{{user.username}}/{{myclass.id}}'>{{myclass.name}}</a></div>
-
-          </h1>
-
-        {%endfor%}
-        <br/><br/>
-
+        <h1 class = "miniSubHeader gradient-text">Current Classes</h1>
+        {% if user %}
+        <div class = "classesContainer">
+            {%for myclass in user.classes%}
+                  <div class = "classListFont">
+                      <a href = '/ClassPage/{{myclass.id}}'>- {{myclass.name}}</a>
+                  </div>
+            {%endfor%}
+        </div>
+        {% endif %}
       </div>
-
     </body>
 </html>

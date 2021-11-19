@@ -9,44 +9,59 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='AccountHomeStyle.css') }}">
     </head>
     <body>
-            <div class = "wrapper">
-                  <div class = "title">
-                        <h1 class = "gradient-text">UNCC Campus Connections</h1>
-                  </div>
-                  <div class = "topnavbar"><p class = "gradient-nav">{{user}} |
+
+        <div id = "topnavbar">
+            <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
+            <span id = "navLinks" class = "gradient-text">{{user}} |
+                {% if user %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Sign In</a> ||
+                    <a href="{{ url_for('signup') }}">Register</a>
+                {% endif %}
+            </span>
+        </div>
+
+        <div class = "wrapper">
+            <div class = "classesNav">
+                <p class = "subHeader gradient-text" >Your Classes</p>
+                <div class = "classesContainer">
                     {% if user %}
-                            <a href="{{ url_for('logout') }}">Logout</a>
-                    {% else %}
-                            <a href="{{ url_for('login') }}">Sign In</a> ||
-                            <a href="{{ url_for('signup') }}">Register</a>
-                    {% endif %}</p>
-                  </div>
+                        <div class = "classListFont">
+                            {%for myclass in user.classes%}
+                                <a href = '/ClassPage/{{user}}/{{myclass.id}}'>{{myclass.name}}</a>
+                            {%endfor%}
+                        </div>
+                    {% endif %}
+                </div>
 
-
-                  <div class = "classes"><p class = "gradient-text">
-                      <a href = "{{url_for('classes', username = user)}}">Classes</a>
-                       {% if user %}
-                        <p class = 'gradient-text'>
-                                {%for myclass in user.classes%}
-                                    <a href = '/ClassPage/{{user}}/{{myclass.id}}'>{{myclass.name}}</a>
-                                {%endfor%}
-                        </p>
-                      {% endif %}
-                  </div>
-                  <div class = "latestpost"><p class = "gradient-text">Latest Posts</p> </div>
-                  <div class = "popularpost"><p class = "gradient-text">Popular Post</p></div>
-                  <div class = "searchbar">
-                    <form action = "search" method = "get">
-                    <p><input type = "text" placeholder="Search...", size = "70";id "searchHome"></p>
-                    </form>
-                    </div>
-                    <div class = "searchbarbutton">
-                      <form>
-
-                        <p><input type = "submit", value = "search">
-                      </form>
-                    </div>
+                <span class = "gradient-text">
+                    <a href = "/Classes"> Add Classes </a>
+                </span>
             </div>
+
+            <div class = "latestpost">
+                <p class = "subHeader gradient-text">Latest Posts</p>
+            </div>
+
+            <div class = "popularpost">
+                <p class = "subHeader gradient-text">Popular Post</p>
+            </div>
+
+            <div id = "welcomeContainer">
+                <h1 class = "subtitleFont gradient-text">~ Welcome Niners! ~</h1>
+            </div>
+
+            <div class = "searchbar">
+                <form action = "search" method = "get">
+                    <p><input id = "searchHome" type = "text" placeholder="Search...", size = "93.5"></p>
+                </form>
+                <form class = "searchBarButton">
+                    <p><input type = "submit", value = "search">
+                </form>
+            </div>
+        </div>
+
 
     </body>
 </html>

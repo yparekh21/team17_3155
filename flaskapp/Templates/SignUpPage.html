@@ -11,6 +11,18 @@
     </head>
     <body>
 
+        <div id = "topnavbar">
+            <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
+            <span id = "navLinks" class = "gradient-text">
+                {% if user %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Sign In</a> ||
+                    <a href="{{ url_for('signup') }}">Register</a>
+                {% endif %}
+            </span>
+        </div>
+
         <div>
           <h2 class="title">Register</h2>
             <form method="POST" action="{{url_for('signup')}}">

@@ -1,17 +1,21 @@
-from flaskapp import db;
+from database import db;
 from datetime import datetime;
 
 class User(db.Model):
     __tablename__ = 'user'
+    full_name = db.Column("full_name", db.String(100))
     username = db.Column(db.String(20), primary_key = True)
-    password = db.Column(db.String(30), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
+    email = db.Column("email", db.String(100))
     date_joined = db.Column(db.DateTime, default=datetime.utcnow)
     classes = db.relationship('Classes', backref = 'user',lazy=True)
     posts = db.relationship('Posts', backref = 'user', lazy = True)
 
-    def __init__(self, username, password):
+    def __init__(self, full_name, email, username, password):
+        self.full_name = full_name
         self.username = username
         self.password = password
+        self.email = email
 
 class Classes(db.Model):
     __tablename__ = 'classes'
@@ -35,8 +39,8 @@ class Posts(db.Model):
     date = db.Column(db.DateTime, default = datetime.utcnow)
     classrelation = db.Column(db.Integer, db.ForeignKey('classes.id'), nullable=False)
     userrelation = db.Column(db.String, db.ForeignKey('user.username'))
-    def __init__(self, id, title, post,classrelation, userrelation):
-        self.id = id
+
+    def __init__(self, title, post,classrelation, userrelation):
         self.title = title
         self.post = post
         self.classrelation = classrelation

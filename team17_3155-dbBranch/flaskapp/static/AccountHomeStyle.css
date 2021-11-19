@@ -1,0 +1,88 @@
+body{
+  width: 100%;
+  margin: 0;
+  height: 100;
+  background-image: url("background.jpg");
+  background-repeat: no repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center center;
+}
+
+.wrapper{
+  display: grid;
+  grid-template-columns: repeat(100,1fr);
+  grid-template-rows: repeat(50,1fr);
+  gap: 20px;
+
+}
+
+.classes{
+  font-size: 30px;
+  text-align: center;
+  grid-column: 4/19;
+  grid-row: 5/45;
+  border: solid forestgreen;
+  border-radius: 25px;
+  background-color: rgba(0,0,0,0.9);
+
+}
+.latestpost{
+  font-size: 30px;
+  text-align: center;
+  grid-column: 20/50;
+  grid-row: 10/ 45;
+  justify-content: center;
+  border: solid forestgreen;
+  border-radius: 25px;
+
+  background-color: rgba(0,0,0,0.9);
+
+
+}
+.popularpost{
+  font-size: 30px;
+  text-align: center;
+  grid-column: 50/80;
+  grid-row: 10/45;
+  border: solid forestgreen;
+  border-radius: 25px;
+  background-color: rgba(0,0,0,0.9);
+
+}
+.searchbar{
+  grid-column: 21/65;
+  grid-row: 8/10;
+}
+.searchbarbutton{
+  grid-column: 47/65;
+  grid-row: 8/10;
+}
+.title{
+  font-size: 30px;
+  grid-column: 1/76;
+  grid-row: 1/5;
+  background-color: rgba(0,0,0,0.9);
+  border: solid forestgreen;
+  border-top-left-radius: 100px;
+  border-bottom-right-radius: 100px;
+}
+.topnavbar{
+  font-size: 20px;
+  grid-column: 75/85;
+  grid-row: 1/5;
+  background-color: rgba(255,215,0,0.9);
+  border: solid forestgreen;
+}
+
+.gradient-text{
+  background: -webkit-linear-gradient(gold,forestgreen,gold,gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.gradient-nav{
+  background: -webkit-linear-gradient(black,forestgreen,black,black);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+}

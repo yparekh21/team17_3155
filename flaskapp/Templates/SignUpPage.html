@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="">
+        <link rel="stylesheet" href="{{ url_for('static', filename='forms.css') }}">
         <title>CampusConnection</title>
         <!-- styles -->
         <link rel="stylesheet" href="{{ url_for('static', filename='AccountHomeStyle.css') }}">
@@ -11,16 +12,55 @@
     <body>
 
         <div>
-          <form action = "/SignUp" METHOD = "POST">
-
-            <p><label>Username </label></p><p>
-            <input type="text" name="name"/></p>
-            <p><label>Password </label></p>
-            <input type="text" name="password"/>
-            <br/><br/>
-            <input type = "submit", value = "Sign up">
-
-          </form>
+          <h2 class="title">Register</h2>
+            <form method="POST" action="{{url_for('signup')}}">
+                <div class="form-field">{{ form.full_name.label }} {{ form.full_name }}
+                    {% if form.full_name.errors %}
+                    <ul class="errors">
+                        {% for error in form.full_name.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-field">{{ form.email.label }} {{ form.email }}
+                    {% if form.email.errors %}
+                    <ul class="errors">
+                        {% for error in form.email.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-field">{{ form.username.label }} {{ form.username }}
+                    {% if form.username.errors %}
+                    <ul class="errors">
+                        {% for error in form.username.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-field">{{ form.password.label }} {{ form.password }}
+                    {% if form.password.errors %}
+                    <ul class="errors">
+                        {% for error in form.password.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="form-field">{{ form.confirmPassword.label }} {{ form.confirmPassword }}
+                    {% if form.confirmPassword.errors %}
+                    <ul class="errors">
+                        {% for error in form.confirmPassword.errors %}
+                        <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+                {{ form.submit }}
+            </form>
           <br/><br/>
 
         </div>

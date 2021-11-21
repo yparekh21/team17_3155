@@ -25,11 +25,24 @@ class Classes(db.Model):
     date_added = db.Column(db.DateTime, default = datetime.utcnow)
     username = db.Column(db.String, db.ForeignKey('user.username'), nullable = False)
     posts = db.relationship('Posts', backref='classes', lazy=True)
+    classusers = db.relationship('ClassUsers', backref = 'classes', lazy = True)
     def __init__(self, id, name, classcode, username):
         self.id = id
         self.name = name
         self.classcode = classcode
         self.username = username
+
+class ClassUsers(db.Model):
+    __tablename__ = 'classusers'
+    id  = db.Column(db.Integer, primary_key = True)
+    classid = db.Column(db.Integer, db.ForeignKey('classes.id'), nullable = False)
+    userid = db.Column(db.String, db.ForeignKey('user.username'),nullable = False)
+
+    def __init__(self, id, classid, userid):
+        self.id = id
+        self.classid = classid
+        self.userid = userid
+
 
 class Posts(db.Model):
     __tablename__ = 'posts'

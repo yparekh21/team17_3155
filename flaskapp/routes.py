@@ -6,7 +6,7 @@ import random as random
 
 from sqlalchemy import desc
 
-from models import User as User, Classes as Classes, Posts as Posts
+from models import User as User, Classes as Classes, Posts as Posts, ClassUsers
 from __init__ import app
 from database import db
 from forms import RegisterForm
@@ -25,7 +25,6 @@ def index():
         posts = db.session.query(Posts).filter_by(userrelation = username).order_by(desc(Posts.date)).limit(7)
         return render_template("AccountHomePage.html", user=queryUser, posts = posts)
 
-        
     else:
         return redirect(url_for('login'))
 
@@ -41,11 +40,23 @@ def classes():
 
             queryUser = User.query.filter_by(full_name = username).first()
             result = queryUser.username
+            classusersid = random.randint(0,10000)
 
             #push to db
             try:
+
                 db.session.add(Classes(new_id, class_name, code, result))
                 db.session.commit()
+                print('got here')
+                print(new_id)
+                classid = db.session.query(Classes).filter_by(id=new_id).first()
+                print('class id below')
+                print(classid.id)
+
+                db.session.add(ClassUsers(classusersid, classid.id, result))
+                db.session.commit()
+
+
 
                 return redirect(url_for('classes'))
             except:
@@ -53,8 +64,13 @@ def classes():
 
         else:
             username = session.get('user')
+            queryUser = User.query.filter_by(full_name = username).first()
+
             print(username)
+
+            print(ClassUsers.query.filter_by(userid = queryUser.username).first())
             myclass = User.query.filter_by(full_name = username).first()
+            print(myclass.classes)
             return render_template('classes.html', user = myclass)
     else:
         return redirect(url_for('login'))

@@ -24,6 +24,7 @@ def index():
         username = queryUser.username
         posts = db.session.query(Posts).filter_by(userrelation = username).order_by(desc(Posts.date)).limit(7)
         return render_template("AccountHomePage.html", user=queryUser, posts = posts)
+        
     else:
         return redirect(url_for('login'))
 

@@ -38,9 +38,10 @@ class Posts(db.Model):
     post = db.Column(db.String(300), nullable = False)
     date = db.Column(db.DateTime, default = datetime.utcnow)
     classrelation = db.Column(db.Integer, db.ForeignKey('classes.id'), nullable=False)
-    userrelation = db.Column(db.String, db.ForeignKey('user.username'))
+    userrelation = db.Column(db.String, db.ForeignKey('user.username'), nullable = False)
 
-    def __init__(self, title, post,classrelation, userrelation):
+    def __init__(self, id, title, post,classrelation, userrelation):
+        self.id = id
         self.title = title
         self.post = post
         self.classrelation = classrelation

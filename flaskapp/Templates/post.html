@@ -23,15 +23,16 @@
         </div>
 
       <div>
+
         <nav class = 'gradient-nav'><a href = '/Home/{{user.username}}'>Home</a></nav>
 
         {%if posts%}
 
-          <form action = '{{url_for('editpost' , username = user.username, id = classinfo.id, post_id = posts.id)}}' method = 'post'>
+          <form action = '{{url_for('editpost' , id = classinfo.id, post_id = posts.id)}}' method = 'post'>
+
 
         {%else%}
-
-        <form action = '/ClassPage/{{user.username}}/{{classinfo.id}}/post' method = 'post'>
+        <form action = '/ClassPage/{{classinfo.id}}/post' method = 'post'>
 
         {%endif%}
 

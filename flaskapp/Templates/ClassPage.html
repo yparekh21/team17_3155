@@ -27,7 +27,7 @@
           <br/><h1 class = "gradient-text">{{classinfo.name}}</h1>
 
           </div>
-          <div class = "topnavbar"><p class = "gradient-nav">{{user.username}} | sign out</p><p><a href = '/Home/{{user.username}}'>Home</a></p>
+          <div class = "topnavbar"><p class = "gradient-nav">{{user.username}} | sign out</p><p><a href = '/Home'>Home</a></p>
           <p><a href = '{{url_for('post', username = user.username, id = classinfo.id)}}'>Create Post</a></p></div>
 
 

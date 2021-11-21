@@ -3,6 +3,9 @@ from datetime import datetime
 from flask import render_template, redirect, url_for, request
 import os
 import random as random
+
+from sqlalchemy import desc
+
 from models import User as User, Classes as Classes, Posts as Posts
 from __init__ import app
 from database import db
@@ -17,39 +20,45 @@ import bcrypt
 def index():
     # check if a user is saved in session
     if session.get('user'):
-        return render_template("AccountHomePage.html", user=session['user'])
+        queryUser = User.query.filter_by(full_name = session.get('user')).first()
+        username = queryUser.username
+        posts = db.session.query(Posts).filter_by(userrelation = username).order_by(desc(Posts.date)).limit(7)
+        return render_template("AccountHomePage.html", user=queryUser, posts = posts)
     else:
         return redirect(url_for('login'))
 
 @app.route('/Classes', methods= ['POST','GET'])
-def classes(username):
+def classes():
     if session.get('user'):
         if request.method == 'POST':
             class_name = request.form['name']
 
             new_id = random.randint(1000, 9999)
             code = random.randint(100000, 999999)
+            username = session.get('user')
 
-            queryUser = User.query.filter_by(username = username)
-            result = queryUser.first()
+            queryUser = User.query.filter_by(full_name = username).first()
+            result = queryUser.username
 
             #push to db
             try:
-                db.session.add(Classes(new_id, class_name, code, username))
+                db.session.add(Classes(new_id, class_name, code, result))
                 db.session.commit()
 
-                return redirect(url_for('classes', username = username))
+                return redirect(url_for('classes'))
             except:
                 return "There was an error setting your class"
 
         else:
-            myclass = User.query.filter_by(username = username).first()
+            username = session.get('user')
+            print(username)
+            myclass = User.query.filter_by(full_name = username).first()
             return render_template('classes.html', user = myclass)
     else:
         return redirect(url_for('login'))
 
 @app.route('/ClassPage/<id>/post', methods= ['POST','GET'])
-def post(username,id):
+def post(id):
     if session.get('user'):
         if request.method == 'POST':
             title = request.form['title']
@@ -57,32 +66,36 @@ def post(username,id):
             postid = random.randint(10000, 99999)
             classIn = db.session.query(Classes).filter_by(id = id).first()
             classId = classIn.id
-            user = User.query.filter_by(username = username).first()
+            username = session.get('user')
+            user = db.session.query(User).filter_by(full_name = username).first()
             userName = user.username
 
             #push to db
             try:
-                thisinjection = Posts(postid, title, post, classId, userName)
-                db.session.add(thisinjection)
+                db.session.add(Posts(postid, title, post, classId, userName))
                 db.session.commit()
 
-                return redirect(url_for('post', username = username, id = id))
+                return redirect(url_for('index'))
             except:
 
                 postsOut = db.session.query(Posts).all()
+                print(classId)
                 print(classIn)
+                print(userName)
+                print(user)
                 print(postsOut)
                 return "There was an error posting your post"
 
         else:
-            user_a = User.query.filter_by(username=username).first()
+            user_a = User.query.filter_by(full_name=session.get('user')).first()
+
             classes = Classes.query.filter_by(id=id).first()
             return render_template('post.html', user = user_a, classinfo = classes)
     else:
         return redirect(url_for('login'))
 
 @app.route('/ClassPage/<id>/<post_id>/edit/', methods = ['POST','GET'])
-def editpost(username, id, post_id):
+def editpost(id, post_id):
     if session.get('user'):
         if(request.method == 'POST'):
             title = request.form['title']
@@ -95,10 +108,10 @@ def editpost(username, id, post_id):
 
             db.session.add(_post)
             db.session.commit()
-            return redirect(url_for('classpage', username = username, id = id))
+            return redirect(url_for('classpage', id = id))
 
         else:
-            user_a = User.query.filter_by(username=username).first()
+            user_a = User.query.filter_by(full_name=session.get('user')).first()
             _posts = db.session.query(Posts).filter_by(id = post_id).first()
             classes = Classes.query.filter_by(id=id).first()
             return render_template('post.html', posts = _posts, user = user_a, classinfo = classes)
@@ -130,12 +143,13 @@ def classesJoin(username):
         return redirect(url_for('login'))
 
 @app.route('/ClassPage/<id>', methods = ['POST', 'GET'])
-def classpage(username,id):
+def classpage(id):
     if session.get('user'):
-        user_a = User.query.filter_by(username = username).first()
+        user_a = db.session.query(User).filter_by(full_name = session.get('user')).first()
         classes = Classes.query.filter_by(id = id).first()
         print(classes.id)
         print(classes.posts)
+        print(user_a)
         posts = classes.posts
         return render_template('ClassPage.html', user = user_a, classinfo = classes, posts = posts)
     else:

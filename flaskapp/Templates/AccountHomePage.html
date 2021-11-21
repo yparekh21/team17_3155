@@ -12,7 +12,7 @@
 
         <div id = "topnavbar">
             <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
-            <span id = "navLinks" class = "gradient-text">{{user}} |
+            <span id = "navLinks" class = "gradient-text">{{user.username}} |
                 {% if user %}
                     <a href="{{ url_for('logout') }}">Logout</a>
                 {% else %}
@@ -25,16 +25,16 @@
         <div class = "wrapper">
             <div class = "classesNav">
                 <p class = "subHeader gradient-text" >Your Classes</p>
+                {% if user %}
                 <div class = "classesContainer">
-                    {% if user %}
                         <div class = "classListFont">
                             {%for myclass in user.classes%}
-                                <a href = '/ClassPage/{{user}}/{{myclass.id}}'>{{myclass.name}}</a>
+                                <a href = '/ClassPage/{{myclass.id}}'>{{myclass.name}} | </a>
                             {%endfor%}
                         </div>
-                    {% endif %}
-                </div>
 
+                </div>
+                {% endif %}
                 <span class = "gradient-text">
                     <a href = "/Classes"> Add Classes </a>
                 </span>
@@ -42,6 +42,9 @@
 
             <div class = "latestpost">
                 <p class = "subHeader gradient-text">Latest Posts</p>
+                {%for post in posts%}
+                  <p class = 'gradient-text'>{{post.title}}</p>
+                {%endfor%}
             </div>
 
             <div class = "popularpost">

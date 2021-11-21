@@ -12,7 +12,7 @@
 
 
         <div id = "topnavbar">
-            <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
+            <h1 id = "titleFont" class = "gradient-text"><a href = '{{url_for('index')}}' >UNCC Campus Connections</a></h1>
             <span id = "navLinks" class = "gradient-text">{{user}} |
                 {% if user %}
                     <a href="{{ url_for('logout') }}">Logout</a>
@@ -33,15 +33,13 @@
             </section>
         </form>
         <h1 class = "miniSubHeader gradient-text">Current Classes</h1>
-        {% if user %}
         <div class = "classesContainer">
             {%for myclass in user.classes%}
                   <div class = "classListFont">
-                      <a href = '/ClassPage/{{myclass.id}}'>- {{myclass.name}}</a>
+                      <a href = '{{url_for('classpage', id = myclass.id)}}'>- {{myclass.name}}</a>
                   </div>
             {%endfor%}
         </div>
-        {% endif %}
       </div>
     </body>
 </html>

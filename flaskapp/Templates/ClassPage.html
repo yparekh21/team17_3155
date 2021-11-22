@@ -11,7 +11,7 @@
     <body>
 
         <div id = "topnavbar">
-            <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
+            <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections | {{classinfo.classcode}}</a></h1>
             <span id = "navLinks" class = "gradient-text">{{user}} |
                 {% if user %}
                     <a href="{{ url_for('logout') }}">Logout</a>

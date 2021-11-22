@@ -28,7 +28,7 @@
                 {% if user %}
                 <div class = "classesContainer">
                         <div class = "classListFont">
-                            {%for myclass in user.classes%}
+                            {%for myclass in classes%}
                                 <a href = '/ClassPage/{{myclass.id}}'>{{myclass.name}} | </a>
                             {%endfor%}
                         </div>
@@ -37,7 +37,10 @@
                 {% endif %}
                 <span class = "gradient-text">
                     <a href = "/Classes"> Add Classes </a>
+                    <a href = '/Classes/join'> Join Class </a>
                 </span>
+
+
             </div>
 
             <div class = "latestpost">

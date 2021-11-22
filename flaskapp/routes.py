@@ -21,9 +21,18 @@ def index():
     # check if a user is saved in session
     if session.get('user'):
         queryUser = User.query.filter_by(full_name = session.get('user')).first()
+        print(queryUser)
         username = queryUser.username
-        posts = db.session.query(Posts).filter_by(userrelation = username).order_by(desc(Posts.date)).limit(7)
-        return render_template("AccountHomePage.html", user=queryUser, posts = posts)
+        queryClassUser = (ClassUsers).query.join(User).filter_by(username = username).all()
+        print(queryClassUser)
+        for myclass in queryClassUser:
+            returnList1 = Classes.query.filter_by(id=myclass.classid).all()
+            returnList = Classes.query.filter_by(id = myclass.classid).first()
+            returnThis = returnList.id
+        print(returnThis)
+        posts = db.session.query(Posts).filter_by(classrelation = returnThis)
+
+        return render_template("AccountHomePage.html", user=queryUser, posts = posts, classes = returnList1)
 
     else:
         return redirect(url_for('login'))
@@ -138,24 +147,39 @@ def editpost(id, post_id):
         return redirect(url_for('login'))
 
 @app.route('/Classes/join', methods = ['POST','GET'])
-def classesJoin(username):
+def classesJoin():
     if session.get('user'):
         if request.method == 'POST':
 
+            codeIn = request.form['code']
 
+            classIn = db.session.query(Classes).filter_by(classcode=codeIn).first()
+            classId = classIn.id
+            classusersid = random.randint(0, 10000)
+            user = db.session.query(User).filter_by(full_name=session.get('user')).first()
+            username = user.username
 
             #push to db
             try:
 
-                return redirect(url_for('classes', username = username))
+                db.session.add(ClassUsers(classusersid, classId, username))
+                db.session.commit()
+                print(ClassUsers.query.filter_by(classid = classId).first())
+                print(user)
+                print(username)
+                return redirect(url_for('classes'))
             except:
                 return "There was an error setting your class"
 
         else:
-            myclass = User.query.filter_by(username = username).first()
+            userIn = session.get('user')
 
+            print(userIn)
+            myclass = User.query.filter_by(full_name=userIn).first()
+            print(ClassUsers.query.all())
+            printout = ClassUsers.query.filter_by(id = 871).first()
 
-            return render_template('classes.html', user = myclass)
+            return render_template('join.html', user = myclass)
     else:
         # user is not in session redirect to login
         return redirect(url_for('login'))

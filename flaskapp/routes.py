@@ -20,19 +20,22 @@ import bcrypt
 def index():
     # check if a user is saved in session
     if session.get('user'):
+
         queryUser = User.query.filter_by(full_name = session.get('user')).first()
         print(queryUser)
         username = queryUser.username
-        queryClassUser = (ClassUsers).query.join(User).filter_by(username = username).all()
-        print(queryClassUser)
-        for myclass in queryClassUser:
-            returnList1 = Classes.query.filter_by(id=myclass.classid).all()
-            returnList = Classes.query.filter_by(id = myclass.classid).first()
-            returnThis = returnList.id
-        print(returnThis)
-        posts = db.session.query(Posts).filter_by(classrelation = returnThis)
+        try:
+            queryClassUser = (ClassUsers).query.join(User).filter_by(username = username).all()
+            print(queryClassUser)
+            for myclass in queryClassUser:
+                returnList1 = Classes.query.filter_by(id=myclass.classid).all()
+                returnList = Classes.query.filter_by(id = myclass.classid).first()
+                returnThis = returnList.id
+            posts = db.session.query(Posts).filter_by(classrelation = returnThis)
 
-        return render_template("AccountHomePage.html", user=queryUser, posts = posts, classes = returnList1)
+            return render_template("AccountHomePage.html", user=queryUser, posts = posts, classes = returnList1)
+        except:
+            return render_template("AccountHomePage.html", user=queryUser)
 
     else:
         return redirect(url_for('login'))

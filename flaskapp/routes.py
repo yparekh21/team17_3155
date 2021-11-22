@@ -27,13 +27,19 @@ def index():
         try:
             queryClassUser = (ClassUsers).query.join(User).filter_by(username = username).all()
             print(queryClassUser)
+            list = []
+            postlist = []
             for myclass in queryClassUser:
-                returnList1 = Classes.query.filter_by(id=myclass.classid).all()
-                returnList = Classes.query.filter_by(id = myclass.classid).first()
+                print(myclass.classid)
+                #returnList1 = db.session.query(Classes).filter_by(id=myclass.classid).all()
+                returnList = db.session.query(Classes).filter_by(id=myclass.classid).first()
                 returnThis = returnList.id
-            posts = db.session.query(Posts).filter_by(classrelation = returnThis)
+                print(returnList)
+                list.append(returnList)
+                posts = db.session.query(Posts).filter_by(classrelation=returnThis).first()
+                postlist.append(posts)
 
-            return render_template("AccountHomePage.html", user=queryUser, posts = posts, classes = returnList1)
+            return render_template("AccountHomePage.html", user=queryUser, posts = postlist, classinfo = list)
         except:
             return render_template("AccountHomePage.html", user=queryUser)
 
@@ -79,11 +85,22 @@ def classes():
             queryUser = User.query.filter_by(full_name = username).first()
 
             print(username)
+            user = User.query.filter_by(full_name = username).first()
+            #print(user.classes)
+            queryClassUser = (ClassUsers).query.join(User).filter_by(username=user.username).all()
+            #print(queryClassUser)
+            try:
+                list = []
+                for myclass in queryClassUser:
 
-            print(ClassUsers.query.filter_by(userid = queryUser.username).first())
-            myclass = User.query.filter_by(full_name = username).first()
-            print(myclass.classes)
-            return render_template('classes.html', user = myclass)
+                    returnList1 = Classes.query.filter_by(id=myclass.classid).all()
+                    returnList = Classes.query.filter_by(id=myclass.classid).first()
+                    returnThis = returnList.id
+                    list.append(returnList1)
+                print(list)
+                return render_template('classes.html', user = user, classes = list)
+            except:
+                return render_template('classes.html', user = user)
     else:
         return redirect(url_for('login'))
 

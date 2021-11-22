@@ -25,18 +25,17 @@
         <div class = "wrapper">
             <div class = "classesNav">
                 <p class = "subHeader gradient-text" >Your Classes</p>
-                {% if user %}
                 <div class = "classesContainer">
                         <div class = "classListFont">
-                            {%for myclass in classes%}
-                                <a href = '/ClassPage/{{myclass.id}}'>{{myclass.name}} | </a>
+                            {%for myclass in classinfo%}
+                                <p><a href = '/ClassPage/{{myclass.id}}'>{{myclass.name}} | </a></p>
                             {%endfor%}
                         </div>
 
                 </div>
-                {% endif %}
                 <span class = "gradient-text">
                     <a href = "/Classes"> Add Classes </a>
+
                     <a href = '/Classes/join'> Join Class </a>
                 </span>
 

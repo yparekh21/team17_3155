@@ -32,10 +32,11 @@
                 <input type = "submit", value = "submit">
             </section>
         </form>
-        
+
         <h1 class = "miniSubHeader gradient-text">Current Classes</h1>
         <div class = "classesContainer">
-            {%for myclass in user.classes%}
+
+            {%for myclass in classes%}
                   <div class = "classListFont">
                       <a href = '{{url_for('classpage', id = myclass.id)}}'>- {{myclass.name}}</a>
                   </div>

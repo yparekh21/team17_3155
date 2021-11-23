@@ -50,6 +50,9 @@ class Posts(db.Model):
     title = db.Column(db.String(200), nullable=False)
     post = db.Column(db.String(300), nullable = False)
     date = db.Column(db.DateTime, default = datetime.utcnow)
+    upvote = db.Column(db.Integer, default = 0)
+    downvote = db.Column(db.Integer, default = 0)
+    ratio = db.Column(db.Integer)
     classrelation = db.Column(db.Integer, db.ForeignKey('classes.id'), nullable=False)
     userrelation = db.Column(db.String, db.ForeignKey('user.username'), nullable = False)
 

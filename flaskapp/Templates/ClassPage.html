@@ -28,7 +28,7 @@
 
           </div>
           <div class = "topnavbar"><p class = "gradient-nav">{{user.username}} | sign out</p><p><a href = '/Home'>Home</a></p>
-          <p><a href = '{{url_for('post', username = user.username, id = classinfo.id)}}'>Create Post</a></p></div>
+          <p><a href = '{{url_for('post', username = user.username, id = classinfo.id)}}'>Create Post</a></p><a href = '{{url_for('classpost', username = user.username, id = classinfo.id)}}'>Current Posts</a></p></div>
 
 
 

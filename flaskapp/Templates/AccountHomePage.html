@@ -28,7 +28,7 @@
                 <div class = "classesContainer">
                         <div class = "classListFont">
                             {%for myclass in classinfo%}
-                                <p><a href = '/ClassPage/{{myclass.id}}'>{{myclass.name}} | </a></p>
+                                <p><a href = '/ClassPage/{{myclass.id}}'>{{myclass.name}} | </a>
                             {%endfor%}
                         </div>
 
@@ -45,7 +45,7 @@
             <div class = "latestpost">
                 <p class = "subHeader gradient-text">Latest Posts</p>
                 {%for post in posts%}
-                  <p class = 'gradient-text'>{{post.title}}</p>
+                    <p class = 'gradient-text'>{{post.title}} 
                 {%endfor%}
             </div>
 

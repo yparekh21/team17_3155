@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>CampusConnection</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='AccountHomeStyle.css') }}">
+    </head>
+    <body>
+
+
+        <div id = "topnavbar">
+            <h1 id = "titleFont" class = "gradient-text"><a href = '{{url_for('index')}}' >UNCC Campus Connections</a></h1>
+            <span id = "navLinks" class = "gradient-text">{{user}} |
+                {% if user %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Sign In</a> ||
+                    <a href="{{ url_for('signup') }}">Register</a>
+                {% endif %}
+            </span>
+        </div>
+
+      <div class = "container">
+
+
+        <h1 class = "miniSubHeader gradient-text">Current Posts</h1>
+        <div class = "classesContainer">
+
+            {%for post in classposts%}
+                  <div class = "gradient-text">
+                      <p>Title: {{post.title}}</p>
+                      <p>Text: {{post.post}}</p>
+
+                  </div>
+            {%endfor%}
+        </div>
+      </div>
+    </body>
+</html>

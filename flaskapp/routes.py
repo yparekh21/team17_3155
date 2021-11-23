@@ -20,32 +20,65 @@ import bcrypt
 def index():
     # check if a user is saved in session
     if session.get('user'):
-
+        list = []
+        postlist = []
+        allPost = []
         queryUser = User.query.filter_by(full_name = session.get('user')).first()
         print(queryUser)
         username = queryUser.username
         try:
             queryClassUser = (ClassUsers).query.join(User).filter_by(username = username).all()
-            print(queryClassUser)
-            list = []
-            postlist = []
+            #print(queryClassUser)
+
             for myclass in queryClassUser:
-                print(myclass.classid)
-                #returnList1 = db.session.query(Classes).filter_by(id=myclass.classid).all()
+
                 returnList = db.session.query(Classes).filter_by(id=myclass.classid).first()
                 returnThis = returnList.id
-                print(returnList)
+
                 list.append(returnList)
-                posts = db.session.query(Posts).filter_by(classrelation=returnThis).first()
+                posts = db.session.query(Posts).filter_by(classrelation=myclass.classid).order_by(desc(Posts.date)).all()
                 postlist.append(posts)
 
-            return render_template("AccountHomePage.html", user=queryUser, posts = postlist, classinfo = list)
+            for post in postlist:
+                for item in post:
+                    allPost.append(item)
+                    allPost.reverse()
+
+            print(postlist)
+            print(allPost)
+
+
+            return render_template("AccountHomePage.html", user=queryUser,  posts = allPost, classinfo = list)
         except:
             return render_template("AccountHomePage.html", user=queryUser)
 
     else:
         return redirect(url_for('login'))
 
+@app.route('/vote', methods= ['POST','GET'])
+def vote(postid):
+    if(session.get('user')):
+
+        if request.method == 'POST' and 'value' == 'upvote':
+
+            mypost = Posts.query.filter_by(id = postid).first()
+            upvote = mypost.upvote
+            newupvote = upvote + 1
+            mypost.upvote = newupvote
+            db.session.add(mypost)
+            db.session.commit()
+        elif request.method == 'POST' and 'value' == 'downvote':
+
+
+            mypost = Posts.query.filter_by(id = postid).first()
+            downvote = mypost.downvote
+            newdownvote = downvote + 1
+            mypost.downvote = newdownvote
+            db.session.add(mypost)
+            db.session.commit()
+        return redirect(url_for('index'))
+    else:
+        return redirect(url_for('login'))
 @app.route('/Classes', methods= ['POST','GET'])
 def classes():
     if session.get('user'):
@@ -141,6 +174,8 @@ def post(id):
     else:
         return redirect(url_for('login'))
 
+
+
 @app.route('/ClassPage/<id>/<post_id>/edit/', methods = ['POST','GET'])
 def editpost(id, post_id):
     if session.get('user'):
@@ -217,7 +252,19 @@ def classpage(id):
     else:
         # user is not in session redirect to login
         return redirect(url_for('login'))
-
+@app.route('/ClassPage/<id>/ClassForum', methods = ['POST', 'GET'])
+def classpost(id):
+    if session.get('user'):
+        user_a = db.session.query(User).filter_by(full_name = session.get('user')).first()
+        classes = Classes.query.filter_by(id = id).first()
+        print(classes.id)
+        print(classes.posts)
+        print(user_a)
+        posts = classes.posts
+        return render_template('classposts.html', user = user_a, classinfo = classes, classposts = posts)
+    else:
+        # user is not in session redirect to
+        return redirect(url_for('login'))
 @app.route('/signup', methods = ['POST','GET'])
 def signup():
     form = RegisterForm()

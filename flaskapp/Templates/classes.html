@@ -38,7 +38,7 @@
 
             {%for myclass in classes%}
                   <div class = "classListFont">
-                      <a href = '{{url_for('classpage', id = myclass.id)}}'>- {{myclass.name}}</a>
+                      <a href = "{{url_for('classpage', id = myclass.id)}}">- {{myclass.name}}</a>
                   </div>
             {%endfor%}
         </div>

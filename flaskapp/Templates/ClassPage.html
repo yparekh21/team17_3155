@@ -12,7 +12,7 @@
 
 
         <div id = "topnavbar">
-            <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections | AccessCode: {{classinfo.classcode}}</a></h1>
+            <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
             <span id = "navLinks" class = "gradient-text">{{user.username}} |
                 {% if user %}
                     <a href="{{ url_for('logout') }}">Logout</a>
@@ -25,9 +25,10 @@
 
         <div class = "wrapper">
             <div class = "classesNav">
-                <p class = "gradient-text" >
+                <p class = "subHeader gradient-text" >AccessCode: {{classinfo.classcode}}</p>
+                <span class = "gradient-text">
                     <a href = "{{url_for('post', username = user.username, id = classinfo.id)}}">Create Post</a>
-                </p>
+                </span>
                 <div class = "classesContainer"></div>
             </div>
 

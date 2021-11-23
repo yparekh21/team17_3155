@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>CampusConnection</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='AccountHomeStyle.css') }}">
+    </head>
+    <body>
+
+
+        <div id = "topnavbar">
+            <h1 id = "titleFont" class = "gradient-text"><a href = '{{url_for('index')}}' >UNCC Campus Connections</a></h1>
+            <span id = "navLinks" class = "gradient-text">{{user}} |
+                {% if user %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Sign In</a> ||
+                    <a href="{{ url_for('signup') }}">Register</a>
+                {% endif %}
+            </span>
+        </div>
+
+      <div class = "container">
+        <form action = '{{url_for('classesJoin')}}' METHOD = "POST">
+           <h1 class = "subHeader gradient-text">Add Classes</h1>
+            <section id = "joinClass">
+                <p><label class = "gradient-text">Enter class code </label></p>
+                <p><input type="text" name="code" size = "50"/></p>
+                <input type = "submit", value = "submit">
+            </section>
+        </form>
+
+        <h1 class = "miniSubHeader gradient-text">Current Classes</h1>
+        <div class = "classesContainer">
+            {%for myclass in user.classes%}
+                  <div class = "classListFont">
+                      <a href = '{{url_for('classpage', id = myclass.id)}}'>- {{myclass.name}}</a>
+                  </div>
+            {%endfor%}
+        </div>
+      </div>
+    </body>
+</html>

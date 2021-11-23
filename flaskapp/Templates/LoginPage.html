@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>CampusConnection</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='AccountHomeStyle.css') }}">
+    </head>
+    <body>
+
+        <div id = "topnavbar">
+            <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
+            <span id = "navLinks" class = "gradient-text">
+                {% if user %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Sign In</a> ||
+                    <a href="{{ url_for('signup') }}">Register</a>
+                {% endif %}
+            </span>
+        </div>
+
+        <div class="container">
+            <div id="loginWrapper">
+                <h2 class="subHeader gradient-text">Login</h2>
+                <form method="POST" action="{{url_for('login')}}">
+                    <div class="form-field">{{ form.username.label }} {{ form.username }}
+                        {% if form.username.errors %}
+                        <ul class="errors">
+                            {% for error in form.username.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                    <div class="form-field">{{ form.password.label }} {{ form.password }}
+                        {% if form.password.errors %}
+                        <ul class="errors">
+                            {% for error in form.password.errors %}
+                            <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                    {{ form.submit }}
+                </form>
+            </div>
+        </div>
+    </body>
+</html>

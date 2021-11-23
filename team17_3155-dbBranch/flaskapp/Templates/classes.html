@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>CampusConnection</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='AccountHomeStyle.css') }}">
+    </head>
+    <body>
+
+      <div>
+        <form action = "/Classes/<username>" METHOD = "POST">
+
+          <p><label>Add a Class </label></p><p>
+          <input type="text" name="name"/></p>
+          <input type = "submit", value = "submit">
+
+
+        </form>
+
+        {%for myclass in myclasses%}
+
+          <h1>
+
+              {{myclass.name}}
+
+          </h1>
+
+        {%endfor%}
+        <br/><br/>
+
+      </div>
+
+    </body>
+</html>

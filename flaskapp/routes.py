@@ -38,6 +38,7 @@ def index():
                 list.append(returnList)
                 posts = db.session.query(Posts).filter_by(classrelation=myclass.classid).order_by(desc(Posts.date)).all()
                 postlist.append(posts)
+                print(posts)
 
             for post in postlist:
                 for item in post:
@@ -126,11 +127,12 @@ def classes():
                 list = []
                 for myclass in queryClassUser:
 
-                    returnList1 = Classes.query.filter_by(id=myclass.classid).all()
                     returnList = Classes.query.filter_by(id=myclass.classid).first()
                     returnThis = returnList.id
-                    list.append(returnList1)
+                    list.append(returnList)
                 print(list)
+
+
                 return render_template('classes.html', user = user, classes = list)
             except:
                 return render_template('classes.html', user = user)

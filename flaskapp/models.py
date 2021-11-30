@@ -52,7 +52,7 @@ class Posts(db.Model):
     date = db.Column(db.DateTime, default = datetime.utcnow)
     upvote = db.Column(db.Integer, default = 0)
     downvote = db.Column(db.Integer, default = 0)
-    ratio = db.Column(db.Integer)
+    ratio = db.Column(db.Integer, nullable = True)
     classrelation = db.Column(db.Integer, db.ForeignKey('classes.id'), nullable=False)
     userrelation = db.Column(db.String, db.ForeignKey('user.username'), nullable = False)
 

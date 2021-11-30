@@ -24,7 +24,7 @@ def index():
         postlist = []
         allPost = []
         queryUser = User.query.filter_by(full_name = session.get('user')).first()
-        print(queryUser)
+
         username = queryUser.username
         try:
             queryClassUser = (ClassUsers).query.join(User).filter_by(username = username).all()
@@ -38,15 +38,12 @@ def index():
                 list.append(returnList)
                 posts = db.session.query(Posts).filter_by(classrelation=myclass.classid).order_by(desc(Posts.date)).all()
                 postlist.append(posts)
-                print(posts)
+
 
             for post in postlist:
                 for item in post:
                     allPost.append(item)
-                    allPost.reverse()
 
-            print(postlist)
-            print(allPost)
 
 
             return render_template("AccountHomePage.html", user=queryUser,  posts = allPost, classinfo = list)
@@ -56,28 +53,21 @@ def index():
     else:
         return redirect(url_for('login'))
 
-@app.route('/vote', methods= ['POST','GET'])
+@app.route('/vote/<postid>', methods= ['POST','GET'])
 def vote(postid):
     if(session.get('user')):
 
-        if request.method == 'POST' and 'value' == 'upvote':
+            mypost = db.session.query(Posts).filter_by(id=postid).first()
 
-            mypost = Posts.query.filter_by(id = postid).first()
             upvote = mypost.upvote
+            print(upvote)
             newupvote = upvote + 1
+            print(newupvote)
             mypost.upvote = newupvote
             db.session.add(mypost)
             db.session.commit()
-        elif request.method == 'POST' and 'value' == 'downvote':
-
-
-            mypost = Posts.query.filter_by(id = postid).first()
-            downvote = mypost.downvote
-            newdownvote = downvote + 1
-            mypost.downvote = newdownvote
-            db.session.add(mypost)
-            db.session.commit()
-        return redirect(url_for('index'))
+            print(mypost)
+            return redirect(url_for('index'))
     else:
         return redirect(url_for('login'))
 @app.route('/Classes', methods= ['POST','GET'])
@@ -118,7 +108,7 @@ def classes():
             username = session.get('user')
             queryUser = User.query.filter_by(full_name = username).first()
 
-            print(username)
+            #print(username)
             user = User.query.filter_by(full_name = username).first()
             #print(user.classes)
             queryClassUser = (ClassUsers).query.join(User).filter_by(username=user.username).all()
@@ -130,7 +120,7 @@ def classes():
                     returnList = Classes.query.filter_by(id=myclass.classid).first()
                     returnThis = returnList.id
                     list.append(returnList)
-                print(list)
+
 
 
                 return render_template('classes.html', user = user, classes = list)
@@ -161,11 +151,11 @@ def post(id):
             except:
 
                 postsOut = db.session.query(Posts).all()
-                print(classId)
-                print(classIn)
-                print(userName)
-                print(user)
-                print(postsOut)
+                #print(classId)
+               # print(classIn)
+               # print(userName)
+               # print(user)
+               # print(postsOut)
                 return "There was an error posting your post"
 
         else:
@@ -221,9 +211,9 @@ def classesJoin():
 
                 db.session.add(ClassUsers(classusersid, classId, username))
                 db.session.commit()
-                print(ClassUsers.query.filter_by(classid = classId).first())
-                print(user)
-                print(username)
+               # print(ClassUsers.query.filter_by(classid = classId).first())
+               # print(user)
+               # print(username)
                 return redirect(url_for('classes'))
             except:
                 return "There was an error setting your class"
@@ -231,10 +221,10 @@ def classesJoin():
         else:
             userIn = session.get('user')
 
-            print(userIn)
+          #  print(userIn)
             myclass = User.query.filter_by(full_name=userIn).first()
-            print(ClassUsers.query.all())
-            printout = ClassUsers.query.filter_by(id = 871).first()
+          #  print(ClassUsers.query.all())
+           # printout = ClassUsers.query.filter_by(id = 871).first()
 
             return render_template('join.html', user = myclass)
     else:
@@ -246,9 +236,9 @@ def classpage(id):
     if session.get('user'):
         user_a = db.session.query(User).filter_by(full_name = session.get('user')).first()
         classes = Classes.query.filter_by(id = id).first()
-        print(classes.id)
-        print(classes.posts)
-        print(user_a)
+        #print(classes.id)
+       # print(classes.posts)
+       # print(user_a)
         posts = classes.posts
         return render_template('ClassPage.html', user = user_a, classinfo = classes, posts = posts)
     else:
@@ -259,9 +249,9 @@ def classpost(id):
     if session.get('user'):
         user_a = db.session.query(User).filter_by(full_name = session.get('user')).first()
         classes = Classes.query.filter_by(id = id).first()
-        print(classes.id)
-        print(classes.posts)
-        print(user_a)
+       # print(classes.id)
+       # print(classes.posts)
+       # print(user_a)
         posts = classes.posts
         return render_template('classposts.html', user = user_a, classinfo = classes, classposts = posts)
     else:

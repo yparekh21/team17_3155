@@ -53,21 +53,43 @@ def index():
     else:
         return redirect(url_for('login'))
 
-@app.route('/vote/<postid>', methods= ['POST','GET'])
-def vote(postid):
+@app.route('/upvote/<postid>', methods= ['POST','GET'])
+def upvote(postid):
     if(session.get('user')):
 
             mypost = db.session.query(Posts).filter_by(id=postid).first()
 
             upvote = mypost.upvote
+            downvote = mypost.downvote
             print(upvote)
             newupvote = upvote + 1
             print(newupvote)
             mypost.upvote = newupvote
+            newratio = newupvote/downvote
+            mypost.ratio = newratio
             db.session.add(mypost)
             db.session.commit()
             print(mypost)
             return redirect(url_for('index'))
+    else:
+        return redirect(url_for('login'))
+@app.route('/downvote/<postid>', methods=['POST', 'GET'])
+def downvote(postid):
+    if(session.get('user')):
+        mypost = db.session.query(Posts).filter_by(id=postid).first()
+
+        downvote = mypost.downvote
+        upvote = mypost.upvote
+        print(downvote)
+        newdownvote = downvote + 1
+        print(newdownvote)
+        mypost.downvote = newdownvote
+        newratio = upvote / newdownvote
+        mypost.ratio = newratio
+        db.session.add(mypost)
+        db.session.commit()
+        print(mypost)
+        return redirect(url_for('index'))
     else:
         return redirect(url_for('login'))
 @app.route('/Classes', methods= ['POST','GET'])

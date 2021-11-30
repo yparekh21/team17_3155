@@ -36,11 +36,14 @@
                 <p class = "subHeader gradient-text">Latest Posts</p>
                 {%for post in posts%}
                 <form action = "{{url_for('editpost', username = user.username, id = classinfo.id, post_id = post.id)}}">
-                    <p class = 'gradient-text'><a href = '{{url_for('classpost', id = post.id)}}'>{{post.title}} {{post.upvote}}</a></p>
+                    <p class = 'gradient-text'><a href = '{{url_for('classpost', id = post.id)}}'>{{post.title}} {{post.upvote}} {{post.downvote}} {{post.ratio}}</a></p>
                     <input type = "submit" value = "Edit"/>
                 </form>
-                <form action = "{{url_for('vote', postid = post.id)}}">
+                <form action = "{{url_for('upvote', postid = post.id)}}">
                   <input type = "submit" value = "Upvote"/>
+                </form>
+                <form action = "{{url_for('downvote', postid = post.id)}}">
+                  <input type = "submit" value = "Downvote"/>
                 </form>
                 {%endfor%}
             </div>

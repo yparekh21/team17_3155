@@ -62,3 +62,14 @@ class Posts(db.Model):
         self.post = post
         self.classrelation = classrelation
         self.userrelation = userrelation
+
+class ClassPosts(db.Model):
+    __tablename__ = 'classposts'
+    id  = db.Column(db.Integer, primary_key = True)
+    classid = db.Column(db.Integer, db.ForeignKey('classes.id'), nullable = False)
+    postid = db.Column(db.String, db.ForeignKey('posts.id'),nullable = False)
+
+    def __init__(self, id, classid, postid):
+        self.id = id
+        self.classid = classid
+        self.postid = postid

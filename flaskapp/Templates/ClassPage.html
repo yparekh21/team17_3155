@@ -50,6 +50,9 @@
 
             <div class = "popularpost">
                 <p class = "subHeader gradient-text">Popular Post</p>
+                {%for post in popularposts%}
+                  <p class = 'gradient-text'>{{post.title}} {{post.upvote}} {{post.downvote}}</p>
+                {%endfor%}
             </div>
 
             <div id = "welcomeContainer">

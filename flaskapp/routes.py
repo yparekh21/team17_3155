@@ -6,7 +6,7 @@ import random as random
 
 from sqlalchemy import desc
 
-from models import User as User, Classes as Classes, Posts as Posts, ClassUsers
+from models import User as User, Classes as Classes, Posts as Posts, ClassUsers, ClassPosts
 from __init__ import app
 from database import db
 from forms import RegisterForm
@@ -58,19 +58,44 @@ def upvote(postid):
     if(session.get('user')):
 
             mypost = db.session.query(Posts).filter_by(id=postid).first()
-
+            classes = db.session.query(ClassPosts).filter_by(postid = postid).first()
+            classId = classes.classid
             upvote = mypost.upvote
             downvote = mypost.downvote
             print(upvote)
             newupvote = upvote + 1
             print(newupvote)
             mypost.upvote = newupvote
-            newratio = newupvote/downvote
-            mypost.ratio = newratio
+
+            if(downvote > 0):
+
+                newratio = newupvote/downvote
+                mypost.ratio = newratio
             db.session.add(mypost)
             db.session.commit()
             print(mypost)
-            return redirect(url_for('index'))
+            return redirect(url_for('classpage', id = classId))
+    else:
+        return redirect(url_for('login'))
+@app.route('/downvote/<postid>', methods=['POST', 'GET'])
+def downvote(postid):
+    if(session.get('user')):
+        mypost = db.session.query(Posts).filter_by(id=postid).first()
+        classes = db.session.query(ClassPosts).filter_by(postid=postid).first()
+        classId = classes.classid
+        downvote = mypost.downvote
+        upvote = mypost.upvote
+        print(downvote)
+        newdownvote = downvote + 1
+        print(newdownvote)
+        mypost.downvote = newdownvote
+        if(newdownvote > 0):
+            newratio = upvote / newdownvote
+            mypost.ratio = newratio
+        db.session.add(mypost)
+        db.session.commit()
+        print(mypost)
+        return redirect(url_for('classpage', id = classId))
     else:
         return redirect(url_for('login'))
 @app.route('/downvote/<postid>', methods=['POST', 'GET'])
@@ -163,12 +188,16 @@ def post(id):
             username = session.get('user')
             user = db.session.query(User).filter_by(full_name = username).first()
             userName = user.username
-
+            classpostsid = random.randint(0, 10000)
             #push to db
             try:
                 db.session.add(Posts(postid, title, post, classId, userName))
                 db.session.commit()
 
+                print('class id below')
+
+                db.session.add(ClassPosts(classpostsid, classId, postid))
+                db.session.commit()
                 return redirect(url_for('index'))
             except:
 
@@ -258,11 +287,31 @@ def classpage(id):
     if session.get('user'):
         user_a = db.session.query(User).filter_by(full_name = session.get('user')).first()
         classes = Classes.query.filter_by(id = id).first()
+        posts = classes.posts
         #print(classes.id)
        # print(classes.posts)
        # print(user_a)
-        posts = classes.posts
-        return render_template('ClassPage.html', user = user_a, classinfo = classes, posts = posts)
+        queryClassPosts = (ClassPosts).query.join(Classes).filter_by(id = classes.id).all()
+        print(queryClassPosts)
+        # print(queryClassUser)
+        list = []
+        postlist = []
+        allPost = []
+        latestposts = db.session.query(Posts).filter_by(classrelation=id).order_by(desc(Posts.date)).limit(7)
+        popularvotes = Posts.query.filter_by(classrelation = id).order_by(desc(Posts.ratio)).limit(7)
+        #for post in queryClassPosts:
+           # latestposts = db.session.query(Posts).filter_by(id = post.postid).order_by(Posts.date).first()
+
+
+           # allPost.append(latestposts)
+           # posts = Posts.query.filter_by(id=post.postid).order_by(Posts.title).limit(7).first()
+           # postlist.append(posts)
+
+
+        print(popularvotes)
+        print()
+
+        return render_template('ClassPage.html', user = user_a, posts = latestposts, classinfo = classes, popularposts = popularvotes)
     else:
         # user is not in session redirect to login
         return redirect(url_for('login'))

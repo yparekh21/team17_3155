@@ -22,6 +22,8 @@ def index():
     if session.get('user'):
         list = []
         postlist = []
+        popList = []
+        allPopPost = []
         allPost = []
         queryUser = User.query.filter_by(full_name = session.get('user')).first()
 
@@ -37,21 +39,44 @@ def index():
 
                 list.append(returnList)
                 posts = db.session.query(Posts).filter_by(classrelation=myclass.classid).order_by(desc(Posts.date)).all()
+                popularposts = db.session.query(Posts).filter_by(classrelation = myclass.classid).order_by(Posts.ratio).all()
                 postlist.append(posts)
+                popList.append(popularposts)
 
 
+            print(popList)
             for post in postlist:
                 for item in post:
                     allPost.append(item)
+            for posts in popList:
+                for items in posts:
+                    if(items.downvote > 0):
+                        allPopPost.append(items)
+            print(allPopPost)
+            allPost.sort(key = lambda x: x.date, reverse = True)
+            allPopPost.sort(key = lambda x: x.ratio, reverse = True)
 
-
-
-            return render_template("AccountHomePage.html", user=queryUser,  posts = allPost, classinfo = list)
+            return render_template("AccountHomePage.html", user=queryUser,  posts = allPost, classinfo = list, latestclass = list, popularposts = allPopPost)
         except:
             return render_template("AccountHomePage.html", user=queryUser)
 
     else:
         return redirect(url_for('login'))
+@app.route('/delete/<postid>', methods = ['POST', 'GET'])
+def deletepost(postid):
+
+    if(session.get('user')):
+        mypost = db.session.query(Posts).filter_by(id = postid).first()
+        classes = db.session.query(ClassPosts).filter_by(postid = postid).first()
+        classId = classes.classid
+
+        db.session.delete(mypost)
+        db.session.commit()
+
+        return redirect(url_for('classpost', id = classId))
+
+    else:
+        redirect(url_for('login'))
 
 @app.route('/upvote/<postid>', methods= ['POST','GET'])
 def upvote(postid):
@@ -267,29 +292,13 @@ def classpage(id):
     if session.get('user'):
         user_a = db.session.query(User).filter_by(full_name = session.get('user')).first()
         classes = Classes.query.filter_by(id = id).first()
-        posts = classes.posts
-        #print(classes.id)
-       # print(classes.posts)
-       # print(user_a)
+
         queryClassPosts = (ClassPosts).query.join(Classes).filter_by(id = classes.id).all()
-        print(queryClassPosts)
-        # print(queryClassUser)
-        list = []
-        postlist = []
-        allPost = []
+
+
         latestposts = db.session.query(Posts).filter_by(classrelation=id).order_by(desc(Posts.date)).limit(7)
         popularvotes = Posts.query.filter_by(classrelation = id).order_by(desc(Posts.ratio)).limit(7)
-        #for post in queryClassPosts:
-           # latestposts = db.session.query(Posts).filter_by(id = post.postid).order_by(Posts.date).first()
 
-
-           # allPost.append(latestposts)
-           # posts = Posts.query.filter_by(id=post.postid).order_by(Posts.title).limit(7).first()
-           # postlist.append(posts)
-
-
-        print(popularvotes)
-        print()
 
         return render_template('ClassPage.html', user = user_a, posts = latestposts, classinfo = classes, popularposts = popularvotes)
     else:
@@ -299,15 +308,20 @@ def classpage(id):
 def classpost(id):
     if session.get('user'):
         user_a = db.session.query(User).filter_by(full_name = session.get('user')).first()
-        classes = Classes.query.filter_by(id = id).first()
+        classes = db.session.query(Classes).filter_by(id = id).first()
+
+        print(classes)
        # print(classes.id)
        # print(classes.posts)
        # print(user_a)
-        posts = classes.posts
+        posts = db.session.query(Posts).filter_by(classrelation = classes.id).all()
         return render_template('classposts.html', user = user_a, classinfo = classes, classposts = posts)
     else:
         # user is not in session redirect to
         return redirect(url_for('login'))
+@app.route('/ClassPage/<id>/<topicname>')
+def topics(id, topicname):
+        redirect(url_for('login'))
 @app.route('/signup', methods = ['POST','GET'])
 def signup():
     form = RegisterForm()

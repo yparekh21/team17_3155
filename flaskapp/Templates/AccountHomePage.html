@@ -49,6 +49,9 @@
 
             <div class = "popularpost">
                 <p class = "subHeader gradient-text">Popular Post</p>
+                {%for post in popularposts%}
+                    <p class = 'gradient-text'>{{post.title}}
+                {%endfor%}
             </div>
 
             <div id = "welcomeContainer">

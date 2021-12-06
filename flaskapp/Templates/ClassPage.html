@@ -31,35 +31,48 @@
                 </span>
                 <div class = "classesContainer"></div>
             </div>
+            <div class = "wrapperRightContainer">
+                <div class = "latestpost">
+                    <p class = "subHeader gradient-text">Latest Posts</p>
+                    {%for post in posts%}
+                    <div class = "postContainer">
+                        <p class = "gradient-text">
+                            <a href = "{{url_for('classpost', id = post.id)}}">{{post.title}}</a>
+                        </p>
+                        <form action = "{{url_for('editpost', username = user.username, id = classinfo.id, post_id = post.id)}}">
+                            <button type = "submit" class = "postEditButton gradient-text">Edit</button>
+                        </form>
+                        <div class = "postButtonsContainer">
+                            <span class = "gradient-text">{{post.upvote}}</span>
+                            <form action = "{{url_for('upvote', postid = post.id)}}">
+                                <input type="image" src="/static/arrow_up.png">
+                            </form>
+                            <span class = "gradient-text">{{post.downvote}}</span>
+                            <form action = "{{url_for('downvote', postid = post.id)}}">
+                                <input type="image" src="/static/arrow_down.png">
+                            </form>
+                            <span class = "gradient-text">{{post.ratio}}</span>
+                        </div>
+                    </div>
+                    {%endfor%}
+                </div>
 
-            <div class = "latestpost">
-                <p class = "subHeader gradient-text">Latest Posts</p>
-                {%for post in posts%}
-                <form action = "{{url_for('editpost', username = user.username, id = classinfo.id, post_id = post.id)}}">
-                    <p class = 'gradient-text'><a href = '{{url_for('classpost', id = post.id)}}'>{{post.title}} {{post.upvote}}</a></p>
-                    <input type = "submit" value = "Edit"/>
-                </form>
-                <form action = "{{url_for('vote', postid = post.id)}}">
-                  <input type = "submit" value = "Upvote"/>
-                </form>
-                {%endfor%}
-            </div>
+                <div class = "popularpost">
+                    <p class = "subHeader gradient-text">Popular Post</p>
+                </div>
 
-            <div class = "popularpost">
-                <p class = "subHeader gradient-text">Popular Post</p>
-            </div>
+                <div id = "welcomeContainer">
+                    <h1 class = "subtitleFont gradient-text">~ {{classinfo.name}} ~</h1>
+                </div>
 
-            <div id = "welcomeContainer">
-                <h1 class = "subtitleFont gradient-text">~ {{classinfo.name}} ~</h1>
-            </div>
-
-            <div class = "searchbar">
-                <form action = "search" method = "get">
-                    <p><input id = "searchHome" type = "text" placeholder="Search...", size = "93.5"></p>
-                </form>
-                <form class = "searchBarButton">
-                    <p><input type = "submit", value = "search">
-                </form>
+                <div class = "searchbar">
+                    <form action = "search" method = "get">
+                        <p><input id = "searchHome" type = "text" placeholder="Search...", size = "93.5"></p>
+                    </form>
+                    <form class = "searchBarButton">
+                        <p><input type = "submit", value = "search">
+                    </form>
+                </div>
             </div>
         </div>
 

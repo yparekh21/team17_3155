@@ -39,29 +39,29 @@
                     <a href = '/Classes/join'> Join Class </a>
                 </span>
             </div>
+            <div class = "wrapperRightContainer">
+                <div id = "welcomeContainer">
+                    <h1 class = "subtitleFont gradient-text">~ Welcome Niner {{user.full_name}}! ~</h1>
+                </div>
 
-            <div class = "latestpost">
-                <p class = "subHeader gradient-text">Latest Posts</p>
-                {%for post in posts%}
-                    <p class = 'gradient-text'>{{post.title}}
-                {%endfor%}
-            </div>
+                <div class = "searchbar">
+                    <form action = "search" method = "get">
+                        <p><input id = "searchHome" type = "text" placeholder="Search..."></p>
+                    </form>
+                    <form class = "searchBarButton">
+                        <p><input type = "submit", value = "search">
+                    </form>
+                </div>
+                    <div class = "latestpost">
+                        <p class = "subHeader gradient-text">Latest Posts</p>
+                        {%for post in posts%}
+                            <p class = 'gradient-text'>{{post.title}}</p>
+                        {%endfor%}
+                    </div>
 
-            <div class = "popularpost">
-                <p class = "subHeader gradient-text">Popular Post</p>
-            </div>
-
-            <div id = "welcomeContainer">
-                <h1 class = "subtitleFont gradient-text">~ Welcome Niners! ~</h1>
-            </div>
-
-            <div class = "searchbar">
-                <form action = "search" method = "get">
-                    <p><input id = "searchHome" type = "text" placeholder="Search...", size = "93.5"></p>
-                </form>
-                <form class = "searchBarButton">
-                    <p><input type = "submit", value = "search">
-                </form>
+                    <div class = "popularpost">
+                        <p class = "subHeader gradient-text">Popular Post</p>
+                    </div>
             </div>
         </div>
 

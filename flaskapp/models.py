@@ -55,6 +55,7 @@ class Posts(db.Model):
     ratio = db.Column(db.Numeric, nullable = True)
     classrelation = db.Column(db.Integer, db.ForeignKey('classes.id'), nullable=False)
     userrelation = db.Column(db.String, db.ForeignKey('user.username'), nullable = False)
+    postcomments = db.relationship("Comment", backref="note", cascade="all, delete-orphan", lazy=True)
 
     def __init__(self, id, title, post,classrelation, userrelation):
         self.id = id
@@ -67,9 +68,35 @@ class ClassPosts(db.Model):
     __tablename__ = 'classposts'
     id  = db.Column(db.Integer, primary_key = True)
     classid = db.Column(db.Integer, db.ForeignKey('classes.id'), nullable = False)
-    postid = db.Column(db.String, db.ForeignKey('posts.id'),nullable = False)
+    postid = db.Column(db.Integer, db.ForeignKey('posts.id'),nullable = False)
 
     def __init__(self, id, classid, postid):
         self.id = id
         self.classid = classid
         self.postid = postid
+
+class Comment(db.Model):
+    __tablename__ = 'comment'
+    id = db.Column(db.Integer, primary_key=True)
+    date_posted = db.Column(db.DateTime, default = datetime.utcnow)
+    content = db.Column(db.String, nullable=False)
+    postrelation = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable=False)
+    userrelation = db.Column(db.Integer, db.ForeignKey("user.username"), nullable=False)
+
+    def __init__(self, id, content, postrelation, userrelation):
+        self.id = id
+        self.content = content
+        self.postrelation = postrelation
+        self.userrelation = userrelation
+        
+class PostComments(db.Model):
+    __tablename__ = 'postcomments'
+    id = db.Column(db.Integer, primary_key = True)
+    commentid = db.Column(db.Integer, db.ForeignKey('comment.id'),nullable = False)
+    postid = db.Column(db.Integer, db.ForeignKey('posts.id'),nullable = False)
+    
+    def __init__(self, id, commentid, postid):
+        self.id = id
+        self.commentid = commentid
+        self.postid = postid
+        

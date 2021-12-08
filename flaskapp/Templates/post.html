@@ -14,6 +14,7 @@
             <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
             <span id = "navLinks" class = "gradient-text">{{user}} |
                 {% if user %}
+                    <a href="{{ url_for('classes') }}">Classes |</a>
                     <a href="{{ url_for('logout') }}">Logout</a>
                 {% else %}
                     <a href="{{ url_for('login') }}">Sign In</a> ||
@@ -22,39 +23,33 @@
             </span>
         </div>
 
-      <div>
+      <div class = "container">
+          <h1 class = "subHeader gradient-text">Create Post</h1>
+          <section class = "addClass">
+            {%if posts%}
+              <form action = '{{url_for('editpost' , id = classinfo.id, post_id = posts.id)}}' method = 'post'>
+            {%else%}
+                <form action = '/ClassPage/{{classinfo.id}}/post' method = 'post'>
+            {%endif%}
 
-        <nav class = 'gradient-nav'><a href = '/Home/{{user.username}}'>Home</a></nav>
+            <p><label class = "gradient-text">Title </label></p>
+            <p><input type="text" name="title" value = "{%if posts%} {{posts.title}}{%endif%}"/></p>
+            <p><label class = "gradient-text">Post </label></p><p><textarea class = "textBox" name="post"  rows="6" cols="32">
 
-        {%if posts%}
+            {%if posts%}
+                {{posts.post}}
+            {%else%}
+                Post...
+            {%endif%}
+                </textarea></p>
 
-          <form action = '{{url_for('editpost' , id = classinfo.id, post_id = posts.id)}}' method = 'post'>
-
-
-        {%else%}
-        <form action = '/ClassPage/{{classinfo.id}}/post' method = 'post'>
-
-        {%endif%}
-
-        <p><label>Title </label></p><p>  <input type="text" name="title" value = "{%if posts%} {{posts.title}}{%endif%}"/></p>
-         <p><label>Post </label></p><p><textarea name="post"  rows="6" cols="0">
-
-        {%if posts%}
-          {{posts.post}}
-        {%else%}
-          Post...
-        {%endif%}</textarea></p>
-
-        {%if posts%}
-          <p><input type="submit" value="Edit Post"/></p>
-        {%else%}
-          <p><input type="submit" value="Post"/></p>
-
-        {%endif%}
-
-
-          </form>
-
+            {%if posts%}
+                <p><input type="submit" value="Edit Post"/></p>
+            {%else%}
+                <p><input type="submit" value="Post"/></p>
+            {%endif%}
+                </form>
+          </section>
       </div>
 
     </body>

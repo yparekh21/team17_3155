@@ -15,6 +15,7 @@
             <h1 id = "titleFont" class = "gradient-text"><a href = '{{url_for('index')}}' >UNCC Campus Connections</a></h1>
             <span id = "navLinks" class = "gradient-text">{{user.username}} |
                 {% if user %}
+                    <a href="{{ url_for('classes') }}">Classes |</a>
                     <a href="{{ url_for('logout') }}">Logout</a>
                 {% else %}
                     <a href="{{ url_for('login') }}">Sign In</a> ||
@@ -26,7 +27,7 @@
       <div class = "container">
         <form action = "/Classes" METHOD = "POST">
            <h1 class = "subHeader gradient-text">Add Classes</h1>
-            <section id = "addClass">
+            <section class = "addClass">
                 <p><label class = "gradient-text">Enter class name </label></p>
                 <p><input type="text" name="name" size = "50"/></p>
                 <input type = "submit", value = "submit">

@@ -6,7 +6,7 @@ import random as random
 
 from sqlalchemy import desc
 
-from models import User as User, Classes as Classes, Posts as Posts, ClassUsers, ClassPosts
+from models import User as User, Classes as Classes, Posts as Posts, ClassUsers, ClassPosts, PostUsers
 from __init__ import app
 from database import db
 from forms import RegisterForm
@@ -48,13 +48,20 @@ def index():
             for post in postlist:
                 for item in post:
                     allPost.append(item)
+
             for posts in popList:
                 for items in posts:
                     if(items.downvote > 0):
                         allPopPost.append(items)
-            print(allPopPost)
+            print(allPost)
+
+
+            #print(allPopPost)
             allPost.sort(key = lambda x: x.date, reverse = True)
             allPopPost.sort(key = lambda x: x.ratio, reverse = True)
+
+
+
 
             return render_template("AccountHomePage.html", user=queryUser,  posts = allPost, classinfo = list, latestclass = list, popularposts = allPopPost)
         except:
@@ -91,6 +98,7 @@ def upvote(postid):
             newupvote = upvote + 1
             print(newupvote)
             mypost.upvote = newupvote
+
             if(downvote > 0):
 
                 newratio = newupvote/downvote
@@ -188,6 +196,7 @@ def post(id):
             title = request.form['title']
             post = request.form['post']
             postid = random.randint(10000, 99999)
+            postusersid = random.randint(10000,99999)
             classIn = db.session.query(Classes).filter_by(id = id).first()
             classId = classIn.id
             username = session.get('user')
@@ -202,7 +211,9 @@ def post(id):
                 print('class id below')
 
                 db.session.add(ClassPosts(classpostsid, classId, postid))
+                db.session.add(PostUsers(postusersid, postid, userName))
                 db.session.commit()
+
                 return redirect(url_for('index'))
             except:
 
@@ -295,12 +306,46 @@ def classpage(id):
 
         queryClassPosts = (ClassPosts).query.join(Classes).filter_by(id = classes.id).all()
 
+        try:
+            latestposts = db.session.query(Posts).filter_by(classrelation=id).order_by(desc(Posts.date)).limit(7)
+            popularvotes = Posts.query.filter_by(classrelation = id).order_by(desc(Posts.ratio)).limit(7)
 
-        latestposts = db.session.query(Posts).filter_by(classrelation=id).order_by(desc(Posts.date)).limit(7)
-        popularvotes = Posts.query.filter_by(classrelation = id).order_by(desc(Posts.ratio)).limit(7)
+
+            for post in latestposts:
+                mypost = db.session.query(Posts).filter_by(id=post.id).first()
+
+                newdate = mypost.date.strftime("%m/%d/%Y %H:%M")
+                post.convertdate = newdate
+                db.session.add(mypost)
+                db.session.commit()
+                queryPostUser = (PostUsers).query.join(Posts).filter_by(id=mypost.id).first()
+
+                queryUser = db.session.query(User).filter_by(username=queryPostUser.userid).first()
+
+                mypost.user = queryUser.username
+                db.session.add(mypost)
+                db.session.commit()
+            for thispost in popularvotes:
+                currpost = db.session.query(Posts).filter_by(id=thispost.id).first()
+                newdate = currpost.date.strftime("%m/%d/%Y %H:%M")
+                print(newdate)
+                currpost.convertdate = newdate
+                db.session.add(currpost)
+                db.session.commit()
+                queryPostUser = (PostUsers).query.join(Posts).filter_by(id=currpost.id).first()
+
+                queryUser = db.session.query(User).filter_by(username=queryPostUser.userid).first()
+
+                currpost.user = queryUser.username
+                db.session.add(currpost)
+                db.session.commit()
+
+            return render_template('ClassPage.html', user=user_a, posts=latestposts, classinfo=classes,
+                                   popularposts=popularvotes, postuser=queryPostUser.userid)
+        except:
+            return render_template('ClassPage.html', user=user_a, posts=latestposts, classinfo=classes,popularposts=popularvotes)
 
 
-        return render_template('ClassPage.html', user = user_a, posts = latestposts, classinfo = classes, popularposts = popularvotes)
     else:
         # user is not in session redirect to login
         return redirect(url_for('login'))

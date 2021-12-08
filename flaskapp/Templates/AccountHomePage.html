@@ -14,6 +14,7 @@
             <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
             <span id = "navLinks" class = "gradient-text">{{user.username}} |
                 {% if user %}
+                    <a href="{{ url_for('classes') }}">Classes |</a>
                     <a href="{{ url_for('logout') }}">Logout</a>
                 {% else %}
                     <a href="{{ url_for('login') }}">Sign In</a> ||
@@ -28,7 +29,7 @@
                 <div class = "classesContainer">
                         <div class = "classListFont">
                             {%for myclass in classinfo%}
-                                <p><a href = '/ClassPage/{{myclass.id}}'>{{myclass.name}}</a>
+                                <p><a href = '{{url_for('classpage', id = myclass.id)}}'>{{myclass.name}}</a>
                             {%endfor%}
                         </div>
 
@@ -39,32 +40,76 @@
                     <a href = '/Classes/join'> Join Class </a>
                 </span>
             </div>
+            <div class = "wrapperRightContainer">
+                <div id = "welcomeContainer">
+                    <h1 class = "subtitleFont gradient-text">~ Welcome Niner {{user.full_name}}! ~</h1>
+                </div>
 
-            <div class = "latestpost">
-                <p class = "subHeader gradient-text">Latest Posts</p>
-                {%for post in posts%}
-                    <p class = 'gradient-text'>{{post.title}}
-                {%endfor%}
-            </div>
+                <div class = "searchbar">
+                    <form action = "search" method = "get">
+                        <p><input id = "searchHome" type = "text" placeholder="Search..."></p>
+                    </form>
+                    <form class = "searchBarButton">
+                        <p><input type = "submit", value = "search">
+                    </form>
+                </div>
+                    <div class = "latestpost">
+                        <p class = "subHeader gradient-text">Latest Posts</p>
+                        {%for post in posts%}
+                        <div class = "postContainer">
+                            <p class = 'gradient-text'>{{post.title}}</p>
+                            <p class = 'silver-gradient-text'>{{post.post}}</p>
+                            <p class = 'silver-gradient-text'>{{post.convertdate}}</p>
 
-            <div class = "popularpost">
-                <p class = "subHeader gradient-text">Popular Post</p>
-                {%for post in popularposts%}
-                    <p class = 'gradient-text'>{{post.title}}
-                {%endfor%}
-            </div>
+                            <p class = 'gradient-text'>Posted by {{post.user.username}}</p>
+                            {%for class in classinfo%}
+                              {%if class.id == post.classrelation%}
+                                <p class = 'gradient-text'>From {{class.name}}</p>
+                              {%endif%}
+                            {%endfor%}
+                          <div class = "postButtonsContainer">
+                              <span class = "gradient-text">{{post.upvote}}</span>
+                              <form action = "{{url_for('upvote', postid = post.id)}}">
+                                  <input type="image" src="/static/arrow_up.png">
+                              </form>
+                              <span class = "gradient-text">{{post.downvote}}</span>
+                              <form action = "{{url_for('downvote', postid = post.id)}}">
+                                  <input type="image" src="/static/arrow_down.png">
+                              </form>
+                              <span class = "gradient-text">{{post.ratio}}</span>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
 
-            <div id = "welcomeContainer">
-                <h1 class = "subtitleFont gradient-text">~ Welcome Niners! ~</h1>
-            </div>
+                    <div class = "popularpost">
+                        <p class = "subHeader gradient-text">Popular Post</p>
+                        {%for post in popularposts%}
+                        <div class = "postContainer">
+                            <p class = 'gradient-text'>{{post.title}}</p>
+                            <p class = 'silver-gradient-text'>{{post.post}}</p>
+                            <p class = 'silver-gradient-text'>{{post.convertdate}}</p>
 
-            <div class = "searchbar">
-                <form action = "search" method = "get">
-                    <p><input id = "searchHome" type = "text" placeholder="Search...", size = "93.5"></p>
-                </form>
-                <form class = "searchBarButton">
-                    <p><input type = "submit", value = "search">
-                </form>
+                            <p class = 'gradient-text'>Posted by {{post.user.username}}</p>
+                            {%for class in classinfo%}
+                              {%if class.id == post.classrelation%}
+                                <p class = 'gradient-text'>From {{class.name}}</p>
+                              {%endif%}
+                            {%endfor%}
+                          <div class = "postButtonsContainer">
+                              <span class = "gradient-text">{{post.upvote}}</span>
+                              <form action = "{{url_for('upvote', postid = post.id)}}">
+                                  <input type="image" src="/static/arrow_up.png">
+                              </form>
+                              <span class = "gradient-text">{{post.downvote}}</span>
+                              <form action = "{{url_for('downvote', postid = post.id)}}">
+                                  <input type="image" src="/static/arrow_down.png">
+                              </form>
+                              <span class = "gradient-text">{{post.ratio}}</span>
+                            </div>
+                        </div>
+                        {%endfor%}
+                    </div>
             </div>
         </div>
 

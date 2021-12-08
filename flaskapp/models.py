@@ -50,9 +50,11 @@ class Posts(db.Model):
     title = db.Column(db.String(200), nullable=False)
     post = db.Column(db.String(300), nullable = False)
     date = db.Column(db.DateTime, default = datetime.utcnow)
+    convertdate = db.Column(db.String, nullable = True)
     upvote = db.Column(db.Integer, default = 0)
     downvote = db.Column(db.Integer, default = 0)
     ratio = db.Column(db.Numeric, nullable = True)
+    users = db.Column(db.String, nullable = True)
     classrelation = db.Column(db.Integer, db.ForeignKey('classes.id'), nullable=False)
     userrelation = db.Column(db.String, db.ForeignKey('user.username'), nullable = False)
 
@@ -62,6 +64,19 @@ class Posts(db.Model):
         self.post = post
         self.classrelation = classrelation
         self.userrelation = userrelation
+
+class PostUsers(db.Model):
+    __tablename__ = 'postusers'
+    id = db.Column(db.Integer, primary_key = True)
+    postid = db.Column(db.String, db.ForeignKey('posts.id'), nullable = False)
+    userid = db.Column(db.String, db.ForeignKey('user.username'), nullable = False)
+
+    def __init__(self, id, postid, userid):
+        self.id = id
+        self.postid = postid
+        self.userid = userid
+
+
 
 class ClassPosts(db.Model):
     __tablename__ = 'classposts'

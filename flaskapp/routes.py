@@ -356,10 +356,6 @@ def classpost(id):
         user_a = db.session.query(User).filter_by(full_name = session.get('user')).first()
         classes = db.session.query(Classes).filter_by(id = id).first()
 
-        print(classes)
-       # print(classes.id)
-       # print(classes.posts)
-       # print(user_a)
         posts = db.session.query(Posts).filter_by(classrelation = classes.id).all()
         return render_template('classposts.html', user = user_a, classinfo = classes, classposts = posts)
     else:
@@ -430,13 +426,15 @@ def get_post(postid):
     if session.get('user'):
         # retrieve post form database
         my_post = db.session.query(Posts).filter_by(id=postid).first()
-
+        queryClassInfo = ClassPosts.query.filter_by(postid = my_post.id).first()
+        classinfo = db.session.query(Classes).filter_by(id = queryClassInfo.classid).first()
+        print(classinfo)
         comments = db.session.query(Comment).filter_by(postrelation = postid).all()
         # create a comment form object
         print(comments)
         form = CommentForm()
 
-        return render_template('EditPost.html', post=my_post, comments = comments, form=form, user=session.get('user'))
+        return render_template('EditPost.html', classinfo = classinfo, post=my_post, comments = comments, form=form, user=session.get('user'))
     else:
         return redirect(url_for('login'))
 

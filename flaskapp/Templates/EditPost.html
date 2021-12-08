@@ -11,18 +11,19 @@
     <body>
         <div id = "topnavbar">
             <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
-            <span id = "navLinks" class = "gradient-text">{{user}} |
+            <span id = "navLinks" class = "gradient-text">{{user.username}} |
                 {% if user %}
                     <a href="{{ url_for('logout') }}">Logout</a>
                 {% else %}
                     <a href="{{ url_for('login') }}">Sign In</a> ||
                     <a href="{{ url_for('signup') }}">Register</a>
-                {% endif %}
+                {%endif%}
             </span>
         </div>
         <div class = "container">
             <h1 class = "gradient-text">Welcome {{user}}!</h1>
             <h1 class = "gradient-text">Post</h1>
+
 
             <table>
                 <tr>
@@ -30,6 +31,16 @@
                     <th class = "gradient-text">Text</th>
                     <th class = "gradient-text">Date</th>
                 </tr>
+
+                {%if user == post.user.full_name%}
+                  <form action = "{{url_for('editpost', username = user.username, id = classinfo.id, post_id = post.id)}}">
+                    <button type = "submit" class = "gradient-text">Edit</button>
+                  </form>
+                  <form action = "{{url_for('deletepost', postid = post.id)}}">
+                    <button type = "submit" class = "gradient-text">Delete</button>
+                  </form>
+                {%endif%}
+
                 <tr>
                     <td class = "gradient-text">{{ post.title }}</td>
                     <td class = "gradient-text">{{ post.post }}</td>

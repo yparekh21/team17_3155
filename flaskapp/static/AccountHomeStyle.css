@@ -224,6 +224,10 @@ textarea:focus {
   background-color: rgba(61, 61, 61, 0.52);
   border-radius: 15px
 }
+.titleContainer{
+  font-size: 22px;
+
+}
 
 .postButtonsContainer{
   display: flex;

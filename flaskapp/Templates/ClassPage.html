@@ -30,6 +30,9 @@
                 <span class = "gradient-text">
                     <a href = "{{url_for('post', username = user.username, id = classinfo.id)}}">Create Post</a>
                 </span>
+
+
+                <p class = "subHeader gradient-text"><a href = '{{url_for('classpost', id = classinfo.id)}}'>All Posts</a></p>
                 <div class = "classesContainer"></div>
             </div>
             <div class = "wrapperRightContainer">
@@ -37,12 +40,16 @@
                     <p class = "subHeader gradient-text">Latest Posts</p>
                     {%for post in posts%}
                     <div class = "postContainer">
-                        <p class = "gradient-text">
-                            <a href = "{{url_for('get_post', postid = post.id)}}">{{post.title}}</a>
-                        </p>
-                        <form action = "{{url_for('editpost', username = user.username, id = classinfo.id, post_id = post.id)}}">
+
+                          <div class = 'titleContainer'>
+                            <p class = "gradient-text"><a href = "{{url_for('get_post', postid = post.id)}}">{{post.title}}</a></p>
+                          </div>
+
+                        {%if user.username == post.user.username%}
+                          <form action = "{{url_for('editpost', username = user.username, id = classinfo.id, post_id = post.id)}}">
                             <button type = "submit" class = "postEditButton gradient-text">Edit</button>
-                        </form>
+                          </form>
+                          {%endif%}
                         <p class = 'silver-gradient-text'>{{post.post}}</p>
                         <p class = 'silver-gradient-text'>{{post.convertdate}}</p>
 
@@ -67,11 +74,15 @@
                     <p class = "subHeader gradient-text">Popular Post</p>
                     {%for post in popularposts%}
                     <div class = "postContainer">
-                        <p class = "gradient-text">
-                            <a href = "{{url_for('classpost', id = post.id)}}">{{post.title}}</a>
-                        </p>
+                        
+                          <div class = 'titleContainer'>
+                            <p class = "gradient-text"><a href = "{{url_for('get_post', postid = post.id)}}">{{post.title}}</a></p>
+                          </div>
+
+                        {%if user.username == post.user.username%}
                         <form action = "{{url_for('editpost', username = user.username, id = classinfo.id, post_id = post.id)}}">
                             <button type = "submit" class = "postEditButton gradient-text">Edit</button>
+                        {%endif%}
                         </form>
                         <p class = 'silver-gradient-text'>{{post.post}}</p>
                         <p class = 'silver-gradient-text'>{{post.convertdate}}</p>

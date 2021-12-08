@@ -59,7 +59,60 @@ body{
 }
 
 #loginWrapper{
+  width: 100%;
+  font-size: 20px;
   text-align: center;
+}
+
+#loginWrapper input, textarea{
+  padding: 10px 13px;
+  margin-bottom: 15px;
+  border-radius: 2px;
+  border: 1px solid #d4d9e3;
+  font-weight: 200;
+  color: #4d5060;
+  font-family: 'Poppins', sans-serif;
+}
+
+#loginWrapper input[type="text"]::placeholder {
+  color: #d4d9e3;
+}
+
+#loginWrapper input[type="text"]:hover,
+input[type="password"]:hover,
+textarea:hover,
+select:hover {
+  border-color: green;
+  background: lightyellow;
+}
+
+#loginWrapper input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+  background: white;
+  border-color: green;
+  box-shadow: unset;
+}
+
+#loginWrapper input[type="submit"] {
+  background: darkgreen;
+  border: 0;
+  color: gold;
+  border-radius: 2px;
+  margin-top: 15px;
+  font-weight: 400;
+  border: 1px solid green;
+  transition: all .3s ease-out;
+}
+
+#loginWrapper input[type="submit"]:hover {
+  cursor: pointer;
+  background: gold;
+  color: forestgreen;
+}
+
+.loginForm{
+  width: 250px;
 }
 
 .classesNav{

@@ -1,6 +1,16 @@
-form {
-  background: white;
-  width: 100%;
+form{
+  width: 90%;
+  margin-top: 100px;
+  margin-right: 5%;
+  margin-left: 5%;
+  padding-top: 25px;
+  padding-right: 25px;
+  padding-left: 25px;
+  padding-bottom: 25px;
+  text-align: center;
+  border: solid forestgreen;
+  border-radius: 25px;
+  background-color: rgba(0,0,0,0.9);
 }
 
 .form-field {
@@ -32,6 +42,7 @@ label {
 }
 
 input, textarea{
+  width: 35%;
   padding: 10px 13px;
   margin-bottom: 15px;
   border-radius: 2px;
@@ -40,6 +51,7 @@ input, textarea{
   color: #4d5060;
   font-family: 'Poppins', sans-serif;
   font-size: .9em;
+  text-align: center;
 
 }
 
@@ -64,9 +76,9 @@ textarea:focus {
 }
 
 input[type="submit"] {
-  background: green;
+  background: darkgreen;
   border: 0;
-  color: white;
+  color: gold;
   border-radius: 2px;
   margin-top: 15px;
   font-weight: 400;
@@ -76,7 +88,7 @@ input[type="submit"] {
 
 input[type="submit"]:hover {
   cursor: pointer;
-  background: white;
+  background: gold;
   color: green;
 }
 

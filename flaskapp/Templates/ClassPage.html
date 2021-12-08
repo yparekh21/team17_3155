@@ -45,7 +45,7 @@
                         </form>
                         <div class = "postButtonsContainer">
                             <span class = "gradient-text">{{post.upvote}}</span>
-                            <form action = "{{url_for('vote', postid = post.id)}}">
+                            <form action = "{{url_for('upvote', postid = post.id)}}">
                                 <input type="image" src="/static/arrow_up.png">
                             </form>
                             <span class = "gradient-text">{{post.downvote}}</span>
@@ -61,7 +61,7 @@
                 <div class = "popularpost">
                     <p class = "subHeader gradient-text">Popular Post</p>
                     {%for post in popularposts%}
-                      <div class = "postContainer">
+                    <div class = "postContainer">
                         <p class = "gradient-text">
                             <a href = "{{url_for('classpost', id = post.id)}}">{{post.title}}</a>
                         </p>
@@ -70,7 +70,7 @@
                         </form>
                         <div class = "postButtonsContainer">
                             <span class = "gradient-text">{{post.upvote}}</span>
-                            <form action = "{{url_for('vote', postid = post.id)}}">
+                            <form action = "{{url_for('upvote', postid = post.id)}}">
                                 <input type="image" src="/static/arrow_up.png">
                             </form>
                             <span class = "gradient-text">{{post.downvote}}</span>

@@ -9,8 +9,6 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='AccountHomeStyle.css') }}">
     </head>
     <body>
-
-
         <div id = "topnavbar">
             <h1 id = "titleFont" class = "gradient-text"><a href = '{{url_for('index')}}' >UNCC Campus Connections</a></h1>
             <span id = "navLinks" class = "gradient-text">{{user.username}} |
@@ -26,7 +24,7 @@
 
       <div class = "container">
         <form action = "/Classes" METHOD = "POST">
-           <h1 class = "subHeader gradient-text">Add Classes</h1>
+           <h1 class = "subHeader gradient-text">Create Classes</h1>
             <section class = "addClass">
                 <p><label class = "gradient-text">Enter class name </label></p>
                 <p><input type="text" name="name" size = "50"/></p>

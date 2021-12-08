@@ -12,7 +12,8 @@
 
         <div id = "topnavbar">
             <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
-            <span id = "navLinks" class = "gradient-text">{{user.username}} |
+            <span id = "navLinks" class = "gradient-text">
+                <a href = '/Home'>{{user.username}} |</a>
                 {% if user %}
                     <a href="{{ url_for('classes') }}">Classes |</a>
                     <a href="{{ url_for('logout') }}">Logout</a>
@@ -35,7 +36,7 @@
 
                 </div>
                 <span class = "gradient-text">
-                    <a href = "/Classes"> Add Classes </a></br></br>
+                    <a href = "/Classes"> Create Class </a></br></br>
 
                     <a href = '/Classes/join'> Join Class </a>
                 </span>
@@ -56,7 +57,27 @@
                     <div class = "latestpost">
                         <p class = "subHeader gradient-text">Latest Posts</p>
                         {%for post in posts%}
-                            <p class = 'gradient-text'>{{post.title}}</p>
+                        <div class = "postContainer">
+                            <p class = "gradient-text">
+                                <a href = "{{url_for('classpost', id = post.id)}}">{{post.title}}</a>
+                                <span class = "gradient-text">{{post.date}}</span>
+                            </p>
+                            <span class = "gradient-text">{{post.post}}</span>
+                            <form action = "{{url_for('editpost', username = user.username, id = classinfo.id, post_id = post.id)}}">
+                                <button type = "submit" class = "postEditButton gradient-text">Edit</button>
+                            </form>
+                            <div class = "postButtonsContainer">
+                                <span class = "gradient-text">{{post.upvote}}</span>
+                                <form action = "{{url_for('upvote', postid = post.id)}}">
+                                    <input type="image" src="/static/arrow_up.png">
+                                </form>
+                                <span class = "gradient-text">{{post.downvote}}</span>
+                                <form action = "{{url_for('downvote', postid = post.id)}}">
+                                    <input type="image" src="/static/arrow_down.png">
+                                </form>
+                                <span class = "gradient-text">{{post.ratio}}</span>
+                            </div>
+                        </div>
                         {%endfor%}
                     </div>
 

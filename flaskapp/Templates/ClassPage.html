@@ -66,7 +66,7 @@
                 <div class = "popularpost">
                     <p class = "subHeader gradient-text">Popular Post</p>
                     {%for post in popularposts%}
-                      <div class = "postContainer">
+                    <div class = "postContainer">
                         <p class = "gradient-text">
                             <a href = "{{url_for('classpost', id = post.id)}}">{{post.title}}</a>
                         </p>

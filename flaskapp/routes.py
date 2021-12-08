@@ -6,11 +6,11 @@ import random as random
 
 from sqlalchemy import desc
 
-from models import User as User, Classes as Classes, Posts as Posts, ClassUsers, ClassPosts, PostUsers
+from models import PostComments as PostComments, User as User, Classes as Classes, Posts as Posts, ClassUsers as ClassUsers, ClassPosts as ClassPosts, Comment as Comment, PostUsers as PostUsers
+
 from __init__ import app
 from database import db
-from forms import RegisterForm
-from forms import LoginForm
+from forms import RegisterForm, LoginForm, CommentForm
 from flask import session
 import bcrypt
 
@@ -130,6 +130,7 @@ def downvote(postid):
         return redirect(url_for('classpage', id = classId))
     else:
         return redirect(url_for('login'))
+
 @app.route('/Classes', methods= ['POST','GET'])
 def classes():
     if session.get('user'):
@@ -422,5 +423,46 @@ def logout():
         session.clear()
 
     return redirect(url_for('login'))
+
+@app.route('/ClassPage/post/<postid>', methods = ['POST','GET'])
+def get_post(postid):
+     # check if a user is saved in session
+    if session.get('user'):
+        # retrieve post form database
+        my_post = db.session.query(Posts).filter_by(id=postid).first()
+
+        comments = db.session.query(Comment).filter_by(postrelation = postid).all()
+        # create a comment form object
+        print(comments)
+        form = CommentForm()
+
+        return render_template('EditPost.html', post=my_post, comments = comments, form=form, user=session.get('user'))
+    else:
+        return redirect(url_for('login'))
+
+
+
+@app.route('/ClassPage/post/<postid>/comment', methods=['POST'])
+def new_comment(postid):
+    if session.get('user'):
+        new_id = random.randint(1000, 9999)
+        PostComID = random.randint(1000, 9999)
+        comment_form = CommentForm()
+        user = db.session.query(User).filter_by(full_name = session.get('user')).first()
+        # validate_on_submit only validates using POST
+        if comment_form.validate_on_submit():
+            # get comment data
+            comment_text = request.form['comment']
+            new_record = Comment(new_id, comment_text, postid, user.username)
+            db.session.add(new_record)
+            db.session.commit()
+
+            db.session.add(PostComments(PostComID, new_id, postid))
+            db.session.commit()
+
+        return redirect(url_for('get_post', postid=postid))
+
+    else:
+        return redirect(url_for('login'))
 
 app.run(host=os.getenv('IP', '127.0.0.1'), port=int(os.getenv('PORT', 5000)), debug=False)

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>CampusConnection</title>
+        <!-- styles -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='AccountHomeStyle.css') }}">
+    </head>
+    <body>
+        <div id = "topnavbar">
+            <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
+            <span id = "navLinks" class = "gradient-text">{{user}} |
+                {% if user %}
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Sign In</a> ||
+                    <a href="{{ url_for('signup') }}">Register</a>
+                {% endif %}
+            </span>
+        </div>
+        <div class = "container">
+            <h1 class = "gradient-text">Welcome {{user}}!</h1>
+            <h1 class = "gradient-text">Post</h1>
+
+            <table>
+                <tr>
+                    <th class = "gradient-text">Title</th>
+                    <th class = "gradient-text">Text</th>
+                    <th class = "gradient-text">Date</th>
+                </tr>
+                <tr>
+                    <td class = "gradient-text">{{ post.title }}</td>
+                    <td class = "gradient-text">{{ post.post }}</td>
+                    <td class = "gradient-text">{{ post.date }}</td>
+                </tr>
+            </table>
+
+                <h2 class = "gradient-text">Comments</h2>
+                <ul>
+                {% for comm in comments %}
+                  <li class = "gradient-text">{{ comm.content }}</li>
+                {% endfor %}
+                </ul>
+            <form action="{{ url_for('new_comment', postid=post.id) }}" method="post">
+              <div class="formwrapper">
+                <h2 class="title gradient-text">Add a comment</h2>
+                <div class="form-field">
+                  {{ form.comment.label }} <br/> {{ form.comment }}
+                </div>
+                {{ form.submit }}
+              </div>
+            </form>
+        </div>
+    </body>
+</html>

@@ -11,27 +11,20 @@
     <body>
         <div id = "topnavbar">
             <h1 id = "titleFont" class = "gradient-text"><a href = '/Home' >UNCC Campus Connections</a></h1>
-            <span id = "navLinks" class = "gradient-text">{{user.username}} |
+            <span id = "navLinks" class = "gradient-text">
+                <a href = '/Home'>{{user}} |</a>
                 {% if user %}
+                    <a href="{{ url_for('classes') }}">Classes |</a>
                     <a href="{{ url_for('logout') }}">Logout</a>
                 {% else %}
                     <a href="{{ url_for('login') }}">Sign In</a> ||
                     <a href="{{ url_for('signup') }}">Register</a>
-                {%endif%}
+                {% endif %}
             </span>
         </div>
         <div class = "container">
-            <h1 class = "gradient-text">Welcome {{user}}!</h1>
-            <h1 class = "gradient-text">Post</h1>
-
-
-            <table>
-                <tr>
-                    <th class = "gradient-text">Title</th>
-                    <th class = "gradient-text">Text</th>
-                    <th class = "gradient-text">Date</th>
-                </tr>
-
+            <div class = "postDetailContainer">
+                <nav class = "postDetailButtons">
                 {%if user == post.user.full_name%}
                   <form action = "{{url_for('editpost', username = user.username, id = classinfo.id, post_id = post.id)}}">
                     <button type = "submit" class = "gradient-text">Edit</button>
@@ -40,29 +33,46 @@
                     <button type = "submit" class = "gradient-text">Delete</button>
                   </form>
                 {%endif%}
+                </nav>
+                <p class = "miniSubHeader gradient-text">
+                    {{ post.title }}
+                    <span id = "postDetailSection" class = "silver-gradient-text">
+                        Posted by {{post.user.username}} on {{ post.convertdate }}
+                    </span>
+                </p>
+                <p class = "silver-gradient-text">{{ post.post }}</p>
 
-                <tr>
-                    <td class = "gradient-text">{{ post.title }}</td>
-                    <td class = "gradient-text">{{ post.post }}</td>
-                    <td class = "gradient-text">{{ post.date }}</td>
-                </tr>
-            </table>
-
-                <h2 class = "gradient-text">Comments</h2>
-                <ul>
-                {% for comm in comments %}
-                  <li class = "gradient-text">{{ comm.content }}</li>
-                {% endfor %}
-                </ul>
+                <div class = "postButtonsContainer">
+                            <span class = "gradient-text">{{post.upvote}}</span>
+                            <form action = "{{url_for('upvote', postid = post.id)}}">
+                                <input type="image" src="/static/arrow_up.png">
+                            </form>
+                            <span class = "gradient-text">{{post.downvote}}</span>
+                            <form action = "{{url_for('downvote', postid = post.id)}}">
+                                <input type="image" src="/static/arrow_down.png">
+                            </form>
+                            <span class = "gradient-text">{{post.ratio}}</span>
+                </div>
+            </div>
             <form action="{{ url_for('new_comment', postid=post.id) }}" method="post">
-              <div class="formwrapper">
-                <h2 class="title gradient-text">Add a comment</h2>
+              <div class="addClass">
+                <h2 class="miniSubHeader gradient-text">Add a comment</h2>
                 <div class="form-field">
                   {{ form.comment.label }} <br/> {{ form.comment }}
                 </div>
                 {{ form.submit }}
               </div>
             </form>
+            <h2 class = "miniSubHeader gradient-text">Comments</h2>
+
+            <ul>
+                {% for comm in comments %}
+                  <section class = "commentWrapper">
+                    <p class = "gradient-text">{{comm.userrelation}}: {{ comm.content }}</p>
+                  </section>
+                {% endfor %}
+            </ul>
+
         </div>
     </body>
 </html>

@@ -28,15 +28,37 @@
 
 
         <h1 class = "miniSubHeader gradient-text">Current Posts |<a href = '{{url_for('classpage', id = classinfo.id)}}'> Back to: {{classinfo.name}} </a></h1>
-        <div class = "classesContainer">
 
-            {%for post in classposts%}
-                  <div class = "gradient-text">
-                      <p><a href = "{{url_for('get_post', postid = post.id)}}">Title: {{post.title}}</a></p>
-                      <p>Text: {{post.post}}</p>
+          <div class = "classesContainer">
+              {%for post in classposts%}
+                    <div class = "postContainer">
+                          <div class = 'miniSubHeader titleContainer'>
+                            <p class = "gradient-text"><a href = "{{url_for('get_post', postid = post.id)}}">{{post.title}}</a></p>
+                          </div>
 
-                  </div>
-            {%endfor%}
+                        {%if user.username == post.user.username%}
+                          <form action = "{{url_for('editpost', username = user.username, id = classinfo.id, post_id = post.id)}}">
+                            <button type = "submit" class = "postEditButton gradient-text">Edit</button>
+                          </form>
+                          {%endif%}
+                        <p class = 'silver-gradient-text'>{{post.post}}</p>
+                        <p class = 'silver-gradient-text'>{{post.convertdate}}</p>
+
+                        <p class = 'gradient-text'>Posted by {{post.user.username}}</p>
+
+                        <div class = "postButtonsContainer">
+                            <span class = "gradient-text">{{post.upvote}}</span>
+                            <form action = "{{url_for('upvote', postid = post.id)}}">
+                                <input type="image" src="/static/arrow_up.png">
+                            </form>
+                            <span class = "gradient-text">{{post.downvote}}</span>
+                            <form action = "{{url_for('downvote', postid = post.id)}}">
+                                <input type="image" src="/static/arrow_down.png">
+                            </form>
+                            <span class = "gradient-text">{{post.ratio}}</span>
+                        </div>
+                    </div>
+                    {%endfor%}
         </div>
       </div>
     </body>

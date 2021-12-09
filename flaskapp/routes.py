@@ -429,7 +429,7 @@ def get_post(postid):
         queryClassInfo = ClassPosts.query.filter_by(postid = my_post.id).first()
         classinfo = db.session.query(Classes).filter_by(id = queryClassInfo.classid).first()
         print(classinfo)
-        comments = db.session.query(Comment).filter_by(postrelation = postid).all()
+        comments = db.session.query(Comment).filter_by(postrelation = postid).order_by(desc(Comment.date_posted)).all()
         # create a comment form object
         print(comments)
         form = CommentForm()
